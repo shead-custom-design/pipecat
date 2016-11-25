@@ -1,0 +1,15 @@
+#!/usr/bin/env python
+
+import serial
+
+import datacat
+
+ser = serial.serial_for_url("/dev/cu.SLAB_USBtoUART", baudrate=128000)
+ser.isOpen()
+
+device = datacat.icharger
+
+for observation in datacat.timestamp(device(ser)):
+    for key in sorted(observation.keys()):
+        print "%s: %s" % (key, observation[key])
+    print
