@@ -2,7 +2,6 @@ __version__ = "0.1.0-dev"
 
 import logging
 
-import arrow
 import pint
 
 log = logging.getLogger(__name__)
@@ -17,6 +16,8 @@ def store(observation, key, value):
     observation[key] = value
 
 def pprint(observation):
-    for key in sorted(observation.keys()):
-        print "%s: %s" % (key, observation[key])
+    for key, value in sorted(observation.items()):
+        if isinstance(key, tuple):
+            key = "/".join(key)
+        print "%s: %s" % (key, value)
     print

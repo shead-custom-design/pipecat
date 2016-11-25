@@ -1,14 +1,16 @@
-from datacat import arrow, store, quantity, units
-
-import copy
 import time
+
+import arrow
+
+import datacat
 
 def timestamp(source, key="timestamp"):
     for observation in source:
-        store(observation, key, arrow.utcnow())
+        datacat.store(observation, key, arrow.utcnow())
         yield observation
 
-def metronome(rate=quantity(1.0, units.seconds), prototype={}):
+def metronome(rate=datacat.quantity(1.0, datacat.units.seconds)):
     while True:
-        yield copy.deepcopy(prototype)
-        time.sleep(rate.to(units.seconds).magnitude)
+        yield dict()
+        time.sleep(rate.to(datacat.units.seconds).magnitude)
+
