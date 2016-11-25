@@ -1,6 +1,9 @@
+from __future__ import absolute_import, division, print_function
+
 __version__ = "0.1.0-dev"
 
 import logging
+import sys
 
 import pint
 
@@ -15,9 +18,9 @@ def store(observation, key, value):
         log.warning("Overwriting %s=%s with %s=%s", key, observation[key], key, value)
     observation[key] = value
 
-def pprint(observation):
+def dump(observation, stream=sys.stdout):
     for key, value in sorted(observation.items()):
         if isinstance(key, tuple):
             key = "/".join(key)
-        print "%s: %s" % (key, value)
-    print
+        stream.write("%s: %s\n" % (key, value))
+    stream.write("\n")
