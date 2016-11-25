@@ -40,6 +40,6 @@ def icharger(stream):
 #    v_c3 = float (raw[8])/1000
         observation["internal-temperature"] = units.Quantity(float(raw[14]) / 10, units.degC)
         observation["external-temperature"] = units.Quantity(float(raw[15]) / 10, units.degC)
-        observation["charge-amount"] = units.Quantity(float(raw[16]) / 1000, units.amps * units.hours)
+        observation["charge-amount"] = units.Quantity(float(raw[16]), units.milliamps * units.hours)
 
         yield observation
