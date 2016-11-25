@@ -24,7 +24,6 @@ setup(
     maintainer_email="tim@shead-custom-design.gov",
     packages=find_packages(),
     scripts=[
-        "bin/datacat-monitor",
         ],
     url="http://datacat.readthedocs.org",
     version=re.search(
