@@ -12,6 +12,8 @@ units = pint.UnitRegistry()
 quantity = units.Quantity
 
 def store(observation, key, value):
+    if key in observation:
+        log.warning("Overwriting %s=%s with %s=%s", key, observation[key], key, value)
     observation[key] = value
 
 def pprint(observation):
