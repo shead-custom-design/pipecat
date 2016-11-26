@@ -10,8 +10,7 @@ root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 docs_dir = os.path.join(root_dir, "docs")
 package_dir = os.path.join(root_dir, "datacat")
 
-copyright_notice = """
-"""
+copyright_notice = ""
 
 @given(u'all sources.')
 def step_impl(context):

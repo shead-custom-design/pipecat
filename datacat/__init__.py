@@ -1,11 +1,13 @@
-from __future__ import absolute_import, division, print_function
+"""Data logging library."""
 
-__version__ = "0.1.0-dev"
+from __future__ import absolute_import, division, print_function
 
 import logging
 import sys
 
 import pint
+
+__version__ = "0.1.0-dev"
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
