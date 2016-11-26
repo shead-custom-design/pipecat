@@ -16,11 +16,32 @@ units = pint.UnitRegistry()
 quantity = units.Quantity
 
 def store(observation, key, value):
+    """Add a key-value pair to an observation.
+
+    Parameters
+    ----------
+    observation: dict, required
+        Dictionary of key-value pairs that constitute an observation.
+    key: string or tuple of strings, required
+        Observation key to be overwritten.
+    value: object
+        New observation value.
+    """
+
     if key in observation:
         log.warning("Overwriting %s=%s with %s=%s", key, observation[key], key, value)
     observation[key] = value
 
 def dump(observation, stream=sys.stdout):
+    """Dump a human-readable text representation of an observation to a stream.
+
+    Parameters
+    ----------
+    observation: dict, required
+        Dictionary of key-value pairs to be written-out.
+    stream: file-like object, optional
+    """
+
     for key, value in sorted(observation.items()):
         if isinstance(key, tuple):
             key = "/".join(key)
