@@ -16,36 +16,20 @@ def add(source, key, value):
         yield observation
 
 
-def limit(source, count):
-    """Limits the number of observations returned from another source."""
-    for index, observation in enumerate(source):
-        if index >= count:
-            datacat.log.info("Stopped by %s observation limit." % count)
-            break
-        yield observation
-
-
-def send_to_queue(source, queue):
-    """Send observations from a source to a queue."""
-    for observation in source:
-        queue.put(observation)
-    queue.put(StopIteration)
-
-
-def receive_from_queue(queue):
-    """Receive observations from a queue."""
-    while True:
-        observation = queue.get()
-        if observation is StopIteration:
-            break
-        yield observation
-
-
 def concatenate(sources):
     """Concatenate observations from multiple sources."""
     for source in sources:
         for observation in source:
             yield observation
+
+
+def limit(source, count):
+    """Limits the number of observations returned from another source."""
+    for index in itertools.count():
+        if index + 1 > count:
+            datacat.log.info("Stopped by %s observation limit." % count)
+            break
+        yield next(source)
 
 
 def multiplex(*sources):
@@ -57,4 +41,25 @@ def multiplex(*sources):
         thread.start()
         consumers.append(receive_from_queue(queue))
     return concatenate(consumers)
+
+
+def receive_from_queue(queue):
+    """Receive observations from a queue."""
+    while True:
+        observation = queue.get()
+        if observation is StopIteration:
+            break
+        yield observation
+
+def send_to_queue(source, queue):
+    """Send observations from a source to a queue."""
+    for observation in source:
+        queue.put(observation)
+    queue.put(StopIteration)
+
+
+def trace(source):
+    for observation in source:
+        datacat.log.debug(observation)
+        yield observation
 
