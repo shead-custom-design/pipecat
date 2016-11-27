@@ -15,18 +15,18 @@ def icharger208b(stream):
     """
 
     modes = {
-        1: "Charging",
-        2: "Discharging",
-        3: "Monitor",
-        4: "Waiting",
-        5: "Motor burn-in",
-        6: "Finished",
-        7: "Error",
-        8: "LIxx trickle",
-        9: "NIxx trickle",
-        10: "Foam cut",
-        11: "Info",
-        12: "External-discharging",
+        1: "charge",
+        2: "discharge",
+        3: "monitor",
+        4: "wait",
+        5: "motor",
+        6: "finished",
+        7: "error",
+        8: "trickle-LIxx",
+        9: "trickle-NIxx",
+        10: "foam-cut",
+        11: "info",
+        12: "discharge-external",
     }
 
     for line in stream:
