@@ -23,15 +23,6 @@ def concatenate(sources):
             yield record
 
 
-def limit(source, count):
-    """Limits the number of records returned from another source."""
-    for index in itertools.count():
-        if index + 1 > count:
-            datacat.log.info("Stopped by %s record limit." % count)
-            break
-        yield next(source)
-
-
 def multiplex(*sources):
     """Interleave records from multiple sources."""
     queue = Queue.Queue()

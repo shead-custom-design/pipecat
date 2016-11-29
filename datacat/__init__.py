@@ -16,31 +16,31 @@ log = logging.getLogger(__name__)
 units = pint.UnitRegistry()
 quantity = units.Quantity
 
-def dump(record, stream=sys.stdout):
-    """Dump a human-readable text representation of an record to a stream.
+def dump(record, fobj=sys.stdout):
+    """Dump a human-readable text representation of a record to a file-like object.
 
     Parameters
     ----------
     record: dict, required
         Dictionary of key-value pairs to be written-out.
-    stream: file-like object, optional
+    fobj: file-like object, optional
     """
 
     for key, value in sorted(record.items()):
         if isinstance(key, tuple):
             key = "/".join(key)
-        stream.write("%s: %s\n" % (key, value))
-    stream.write("\n")
+        fobj.write("%s: %s\n" % (key, value))
+    fobj.write("\n")
 
 def store(record, key, value):
-    """Add a key-value pair to an record.
+    """Add a key-value pair to a record.
 
     Parameters
     ----------
     record: dict, required
-        Dictionary of key-value pairs that constitute an record.
+        Dictionary of key-value pairs that constitute a record.
     key: string or tuple of strings, required
-        Observation key to be overwritten.
+        Record key to be overwritten.
     value: object
         New record value.
     """
