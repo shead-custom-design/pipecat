@@ -10,30 +10,30 @@ import datacat
 
 
 def add(source, key, value):
-    """Adds a key-value pair to every observation returned from another source."""
-    for observation in source:
-        datacat.store(observation, key, value)
-        yield observation
+    """Adds a key-value pair to every record returned from another source."""
+    for record in source:
+        datacat.store(record, key, value)
+        yield record
 
 
 def concatenate(sources):
-    """Concatenate observations from multiple sources."""
+    """Concatenate records from multiple sources."""
     for source in sources:
-        for observation in source:
-            yield observation
+        for record in source:
+            yield record
 
 
 def limit(source, count):
-    """Limits the number of observations returned from another source."""
+    """Limits the number of records returned from another source."""
     for index in itertools.count():
         if index + 1 > count:
-            datacat.log.info("Stopped by %s observation limit." % count)
+            datacat.log.info("Stopped by %s record limit." % count)
             break
         yield next(source)
 
 
 def multiplex(*sources):
-    """Interleave observations from multiple sources."""
+    """Interleave records from multiple sources."""
     queue = Queue.Queue()
     consumers = []
     for source in sources:
@@ -44,22 +44,22 @@ def multiplex(*sources):
 
 
 def receive_from_queue(queue):
-    """Receive observations from a queue."""
+    """Receive records from a queue."""
     while True:
-        observation = queue.get()
-        if observation is StopIteration:
+        record = queue.get()
+        if record is StopIteration:
             break
-        yield observation
+        yield record
 
 def send_to_queue(source, queue):
-    """Send observations from a source to a queue."""
-    for observation in source:
-        queue.put(observation)
+    """Send records from a source to a queue."""
+    for record in source:
+        queue.put(record)
     queue.put(StopIteration)
 
 
 def trace(source):
-    for observation in source:
-        datacat.log.debug(observation)
-        yield observation
+    for record in source:
+        datacat.log.debug(record)
+        yield record
 
