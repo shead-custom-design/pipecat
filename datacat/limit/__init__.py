@@ -55,9 +55,21 @@ def duration(source, duration, timeout=datacat.quantity(0.1, datacat.units.secon
         yield record
 
 
-def timeout(source, timeout=datacat.quantity(5, datacat.units.seconds)): # pylint: disable=redefined-outer-name
-    """Return records from another source until they stop arriving."""
-    queue_timeout = timeout.to(datacat.units.seconds).magnitude
+def timeout(source, timeout, initial=datacat.quantity(1, datacat.units.hours)): # pylint: disable=redefined-outer-name
+    """Return records from another source until they stop arriving.
+
+    Parameters
+    ----------
+    source: generator, required
+        A source of records.
+    timeout: quantity, required
+        Maximum time to wait for the next record.
+    initial: quantity, optional
+        Maximum time to wait for the first record.
+    """
+    initial_timeout = initial.to(datacat.units.seconds).magnitude
+    regular_timeout = timeout.to(datacat.units.seconds).magnitude
+    current_timeout = initial_timeout
 
     queue = Queue.Queue()
     thread = threading.Thread(target=datacat.source.send_to_queue, args=(source, queue))
@@ -65,7 +77,8 @@ def timeout(source, timeout=datacat.quantity(5, datacat.units.seconds)): # pylin
 
     while True:
         try:
-            record = queue.get(block=True, timeout=queue_timeout)
+            record = queue.get(block=True, timeout=current_timeout)
+            current_timeout = regular_timeout
         except Queue.Empty:
             datacat.log.info("Iteration stopped by %s timeout.", timeout)
             break
