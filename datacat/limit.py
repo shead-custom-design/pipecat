@@ -21,7 +21,7 @@ import threading
 import time
 import Queue
 
-import datacat
+import datacat.queue
 
 
 def count(source, count): # pylint: disable=redefined-outer-name
@@ -39,7 +39,7 @@ def duration(source, duration, timeout=datacat.quantity(0.1, datacat.units.secon
     queue_timeout = timeout.to(datacat.units.seconds).magnitude
 
     queue = Queue.Queue()
-    thread = threading.Thread(target=datacat.source.send_to_queue, args=(source, queue))
+    thread = threading.Thread(target=datacat.queue.send, args=(source, queue))
     thread.start()
 
     while True:
@@ -72,7 +72,7 @@ def timeout(source, timeout, initial=datacat.quantity(1, datacat.units.hours)): 
     current_timeout = initial_timeout
 
     queue = Queue.Queue()
-    thread = threading.Thread(target=datacat.source.send_to_queue, args=(source, queue))
+    thread = threading.Thread(target=datacat.queue.send, args=(source, queue))
     thread.start()
 
     while True:
