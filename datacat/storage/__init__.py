@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Functions for performing I/O.
+"""Functions for storing data.
 """
 
 from __future__ import absolute_import, division, print_function
@@ -20,6 +20,38 @@ from __future__ import absolute_import, division, print_function
 import os
 
 import datacat
+
+class Cache(object):
+    """Cache records in memory for column-oriented access."""
+    def __init__(self, source):
+        self._source = source
+        self._storage = datacat.Table()
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        record = self._source.next()
+        self._storage.append(record)
+        return record
+
+    @property
+    def table(self):
+        return self._storage
+
+def cache(source):
+    """Create an in-memory cache for records.
+
+    Parameters
+    ----------
+    source: generator, required
+        A source of records to be cached.
+
+    Return
+    ------
+    cache: instance of :class:`datacat.storage.Cache`.
+    """
+    return Cache(source)
 
 def csv(source, fobj):
     """Append records to a CSV file."""

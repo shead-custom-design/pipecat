@@ -64,6 +64,7 @@ def send_to_queue(source, queue):
 
 
 def trace(source):
+    """Log records for debugging."""
     for record in source:
         datacat.log.debug(record)
         yield record
