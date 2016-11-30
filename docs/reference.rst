@@ -12,6 +12,7 @@ Contents:
 
    datacat.rst
    datacat.limit.rst
+   datacat.queue.rst
    datacat.source.rst
    datacat.source.charger.rst
    datacat.source.time.rst
