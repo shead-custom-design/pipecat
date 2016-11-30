@@ -19,12 +19,13 @@ from __future__ import absolute_import, division, print_function
 import threading
 import Queue
 
+import datacat.record
 import datacat.queue
 
 def add(source, key, value):
     """Adds a key-value pair to every record returned from another source."""
     for record in source:
-        datacat.store(record, key, value)
+        datacat.record.add_field(record, key, value)
         yield record
 
 

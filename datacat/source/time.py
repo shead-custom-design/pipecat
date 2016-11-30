@@ -20,12 +20,12 @@ import time
 
 import arrow
 
-import datacat
+import datacat.record
 
 def timestamp(source, key="timestamp"):
     """Add a timestamp to every record returned from another source."""
     for record in source:
-        datacat.store(record, key, arrow.utcnow())
+        datacat.record.add_field(record, key, arrow.utcnow())
         yield record
 
 

@@ -16,7 +16,8 @@
 
 from __future__ import absolute_import, division, print_function
 
-from datacat import store, quantity, units
+from datacat import quantity, units
+from datacat.record import add_field
 
 def icharger208b(fobj):
     """Read data from an iCharger 208B battery charger.
@@ -47,12 +48,12 @@ def icharger208b(fobj):
         raw = line.strip().split(";")
 
         record = dict()
-        store(record, ("charger", "mode"), modes[int(raw[1])])
-        store(record, ("charger", "supply"), quantity(float(raw[3]) / 1000, units.volts))
-        store(record, ("battery", "voltage"), quantity(float(raw[4]) / 1000, units.volts))
-        store(record, ("battery", "current"), quantity(float(raw[5]) * 10, units.milliamps))
-        store(record, ("charger", "temperature", "internal"), quantity(float(raw[14]) / 10, units.degC))
-        store(record, ("charger", "temperature", "external"), quantity(float(raw[15]) / 10, units.degC))
-        store(record, ("battery", "charge"), quantity(float(raw[16]), units.milliamps * units.hours))
+        add_field(record, ("charger", "mode"), modes[int(raw[1])])
+        add_field(record, ("charger", "supply"), quantity(float(raw[3]) / 1000, units.volts))
+        add_field(record, ("battery", "voltage"), quantity(float(raw[4]) / 1000, units.volts))
+        add_field(record, ("battery", "current"), quantity(float(raw[5]) * 10, units.milliamps))
+        add_field(record, ("charger", "temperature", "internal"), quantity(float(raw[14]) / 10, units.degC))
+        add_field(record, ("charger", "temperature", "external"), quantity(float(raw[15]) / 10, units.degC))
+        add_field(record, ("battery", "charge"), quantity(float(raw[16]), units.milliamps * units.hours))
 
         yield record

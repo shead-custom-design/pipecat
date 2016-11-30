@@ -17,15 +17,50 @@
 
 from __future__ import absolute_import, division, print_function
 
+import collections
 import os
 
+import numpy
+
 import datacat
+
+class Table(object):
+    def __init__(self):
+        self._columns = collections.OrderedDict()
+
+    def __len__(self):
+        for column in self._columns.values():
+            return len(column)
+        return 0
+
+    def __getitem__(self, key):
+        values = self._columns[key]
+        if isinstance(values[0], datacat.quantity):
+            values = datacat.quantity(numpy.array([value.magnitude for value in values]), values[0].units)
+        else:
+            values = numpy.array(values)
+        return values
+
+    def append(self, record):
+        for key, value in record.items():
+            if key not in self._columns:
+                self._columns[key] = []
+            self._columns[key].append(value)
+
+    def keys(self):
+        return self._columns.keys()
+
+    def items(self):
+        return self._columns.items()
+
+    def values(self):
+        return self._columns.values()
 
 class Cache(object):
     """Cache records in memory for column-oriented access."""
     def __init__(self, source):
         self._source = source
-        self._storage = datacat.Table()
+        self._storage = Table()
 
     def __iter__(self):
         return self
