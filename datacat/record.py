@@ -18,23 +18,6 @@ import sys
 
 import datacat
 
-def dump(record, fobj=sys.stdout):
-    """Dump a human-readable text representation of a record to a file-like object.
-
-    Parameters
-    ----------
-    record: dict, required
-        Dictionary of key-value pairs to be written-out.
-    fobj: file-like object, optional
-    """
-
-    for key, value in sorted(record.items()):
-        if isinstance(key, tuple):
-            key = "/".join(key)
-        fobj.write("%s: %s\n" % (key, value))
-    fobj.write("\n")
-
-
 def add_field(record, key, value):
     """Add a key-value pair to a record.
 
@@ -51,4 +34,20 @@ def add_field(record, key, value):
     if key in record:
         datacat.log.warning("Overwriting %s=%s with %s=%s", key, record[key], key, value)
     record[key] = value
+
+def dump(record, fobj=sys.stdout):
+    """Dump a human-readable text representation of a record to a file-like object.
+
+    Parameters
+    ----------
+    record: dict, required
+        Dictionary of key-value pairs to be written-out.
+    fobj: file-like object, optional
+    """
+
+    for key, value in sorted(record.items()):
+        if isinstance(key, tuple):
+            key = "/".join(key)
+        fobj.write("%s: %s\n" % (key, value))
+    fobj.write("\n")
 
