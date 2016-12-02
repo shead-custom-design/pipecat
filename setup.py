@@ -19,16 +19,16 @@ setup(
     name="pipecat",
     classifiers=[
         "Development Status :: 3 - Alpha",
-        "Environment :: Console",
-        "Environment :: Other Environment",
-        "Framework :: IPython",
+        "Intended Audience :: End Users/Desktop",
+        "Intended Audience :: Healthcare Industry",
+        "Intended Audience :: Manufacturing",
         "Intended Audience :: Science/Research",
-        "License :: OSI Approved :: BSD License",
+        "License :: OSI Approved :: Apache Software License",
         "Natural Language :: English",
         "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 3",
     ],
-    description="Data logger for managing information collected from real-world instruments.",
+    description="Data logger for connected sensors / instruments.",
     install_requires=[
         "arrow",
         "numpy>=1.8.0",
@@ -47,3 +47,4 @@ setup(
             "r").read(),
         re.M).group(1),
 )
+
