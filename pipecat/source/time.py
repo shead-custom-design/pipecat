@@ -20,19 +20,19 @@ import time
 
 import arrow
 
-import datacat.record
+import pipecat.record
 
 def timestamp(source, key="timestamp"):
     """Add a timestamp to every record returned from another source."""
     for record in source:
-        datacat.record.add_field(record, key, arrow.utcnow())
+        pipecat.record.add_field(record, key, arrow.utcnow())
         yield record
 
 
-def metronome(rate=datacat.quantity(1.0, datacat.units.seconds)):
+def metronome(rate=pipecat.quantity(1.0, pipecat.units.seconds)):
     """Generate an empty record at fixed time intervals."""
     while True:
         yield dict()
-        time.sleep(rate.to(datacat.units.seconds).magnitude)
+        time.sleep(rate.to(pipecat.units.seconds).magnitude)
 
 

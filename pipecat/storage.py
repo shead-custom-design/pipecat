@@ -22,7 +22,7 @@ import os
 
 import numpy
 
-import datacat
+import pipecat
 
 class Table(object):
     def __init__(self):
@@ -35,8 +35,8 @@ class Table(object):
 
     def __getitem__(self, key):
         values = self._columns[key]
-        if isinstance(values[0], datacat.quantity):
-            values = datacat.quantity(numpy.array([value.magnitude for value in values]), values[0].units)
+        if isinstance(values[0], pipecat.quantity):
+            values = pipecat.quantity(numpy.array([value.magnitude for value in values]), values[0].units)
         else:
             values = numpy.array(values)
         return values
@@ -84,7 +84,7 @@ def cache(source):
 
     Return
     ------
-    cache: instance of :class:`datacat.storage.Cache`.
+    cache: instance of :class:`pipecat.storage.Cache`.
     """
     return Cache(source)
 

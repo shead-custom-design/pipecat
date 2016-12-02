@@ -16,7 +16,7 @@ from __future__ import absolute_import, division, print_function
 
 import sys
 
-import datacat
+import pipecat
 
 def add_field(record, key, value):
     """Add a key-value pair to a record.
@@ -32,7 +32,7 @@ def add_field(record, key, value):
     """
 
     if key in record:
-        datacat.log.warning("Overwriting %s=%s with %s=%s", key, record[key], key, value)
+        pipecat.log.warning("Overwriting %s=%s with %s=%s", key, record[key], key, value)
     record[key] = value
 
 def dump(record, fobj=sys.stdout):

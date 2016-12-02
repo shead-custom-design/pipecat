@@ -21,30 +21,30 @@ import threading
 import time
 import Queue
 
-import datacat.queue
+import pipecat.queue
 
 
 def count(source, count): # pylint: disable=redefined-outer-name
     """Limits the number of records returned from another source."""
     for index in itertools.count():
         if index + 1 > count:
-            datacat.log.info("Iteration stopped after %s records.", count)
+            pipecat.log.info("Iteration stopped after %s records.", count)
             break
         yield next(source)
 
 
-def duration(source, duration, timeout=datacat.quantity(0.1, datacat.units.seconds)): # pylint: disable=redefined-outer-name
+def duration(source, duration, timeout=pipecat.quantity(0.1, pipecat.units.seconds)): # pylint: disable=redefined-outer-name
     """Return records from another source until a fixed time duration has expired."""
-    end_time = time.time() + duration.to(datacat.units.seconds).magnitude
-    queue_timeout = timeout.to(datacat.units.seconds).magnitude
+    end_time = time.time() + duration.to(pipecat.units.seconds).magnitude
+    queue_timeout = timeout.to(pipecat.units.seconds).magnitude
 
     queue = Queue.Queue()
-    thread = threading.Thread(target=datacat.queue.send, args=(source, queue))
+    thread = threading.Thread(target=pipecat.queue.send, args=(source, queue))
     thread.start()
 
     while True:
         if time.time() >= end_time:
-            datacat.log.info("Iteration stopped after %s time limit.", duration)
+            pipecat.log.info("Iteration stopped after %s time limit.", duration)
             break
         try:
             record = queue.get(block=True, timeout=queue_timeout)
@@ -55,7 +55,7 @@ def duration(source, duration, timeout=datacat.quantity(0.1, datacat.units.secon
         yield record
 
 
-def timeout(source, timeout, initial=datacat.quantity(1, datacat.units.hours)): # pylint: disable=redefined-outer-name
+def timeout(source, timeout, initial=pipecat.quantity(1, pipecat.units.hours)): # pylint: disable=redefined-outer-name
     """Return records from another source until they stop arriving.
 
     Parameters
@@ -67,12 +67,12 @@ def timeout(source, timeout, initial=datacat.quantity(1, datacat.units.hours)): 
     initial: quantity, optional
         Maximum time to wait for the first record.
     """
-    initial_timeout = initial.to(datacat.units.seconds).magnitude
-    regular_timeout = timeout.to(datacat.units.seconds).magnitude
+    initial_timeout = initial.to(pipecat.units.seconds).magnitude
+    regular_timeout = timeout.to(pipecat.units.seconds).magnitude
     current_timeout = initial_timeout
 
     queue = Queue.Queue()
-    thread = threading.Thread(target=datacat.queue.send, args=(source, queue))
+    thread = threading.Thread(target=pipecat.queue.send, args=(source, queue))
     thread.start()
 
     while True:
@@ -80,7 +80,7 @@ def timeout(source, timeout, initial=datacat.quantity(1, datacat.units.hours)): 
             record = queue.get(block=True, timeout=current_timeout)
             current_timeout = regular_timeout
         except Queue.Empty:
-            datacat.log.info("Iteration stopped by %s timeout.", timeout)
+            pipecat.log.info("Iteration stopped by %s timeout.", timeout)
             break
         if record is StopIteration:
             break

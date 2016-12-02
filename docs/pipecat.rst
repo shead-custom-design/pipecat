@@ -1,7 +1,7 @@
-datacat module
+pipecat module
 ==============
 
-.. automodule:: datacat
+.. automodule:: pipecat
     :members:
     :undoc-members:
     :show-inheritance:

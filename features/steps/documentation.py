@@ -22,7 +22,7 @@ import sys
 
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 docs_dir = os.path.join(root_dir, "docs")
-package_dir = os.path.join(root_dir, "datacat")
+package_dir = os.path.join(root_dir, "pipecat")
 
 @given(u'all public modules')
 def step_impl(context):
@@ -32,7 +32,7 @@ def step_impl(context):
         for loader, name, is_package in pkgutil.iter_modules([path]):
             modules += walk_modules(package + "." + name, os.path.join(path, name))
         return modules
-    context.modules = sorted(walk_modules("datacat", package_dir))
+    context.modules = sorted(walk_modules("pipecat", package_dir))
 
 @given(u'the reference documentation')
 def step_impl(context):
@@ -41,7 +41,7 @@ def step_impl(context):
         for filename in filenames:
             if os.path.splitext(filename)[1] not in [".rst"]:
                 continue
-            if not filename.startswith("datacat."):
+            if not filename.startswith("pipecat."):
                 continue
 
             context.references.append(os.path.join(directory, filename))

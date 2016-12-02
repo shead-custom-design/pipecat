@@ -1,7 +1,7 @@
-datacat.source.charger module
+pipecat.source.charger module
 =============================
 
-.. automodule:: datacat.source.charger
+.. automodule:: pipecat.source.charger
     :members:
     :undoc-members:
     :show-inheritance:

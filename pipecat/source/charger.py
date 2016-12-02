@@ -16,8 +16,8 @@
 
 from __future__ import absolute_import, division, print_function
 
-from datacat import quantity, units
-from datacat.record import add_field
+from pipecat import quantity, units
+from pipecat.record import add_field
 
 def icharger208b(fobj):
     """Read data from an iCharger 208B battery charger.

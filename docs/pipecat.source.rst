@@ -1,7 +1,7 @@
-datacat.record module
+pipecat.source module
 =====================
 
-.. automodule:: datacat.record
+.. automodule:: pipecat.source
     :members:
     :undoc-members:
     :show-inheritance:

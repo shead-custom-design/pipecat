@@ -1,7 +1,7 @@
-datacat.source.time module
+pipecat.source.time module
 ==========================
 
-.. automodule:: datacat.source.time
+.. automodule:: pipecat.source.time
     :members:
     :undoc-members:
     :show-inheritance:

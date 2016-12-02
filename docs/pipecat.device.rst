@@ -1,7 +1,7 @@
-datacat.source module
+pipecat.device module
 =====================
 
-.. automodule:: datacat.source
+.. automodule:: pipecat.device
     :members:
     :undoc-members:
     :show-inheritance:

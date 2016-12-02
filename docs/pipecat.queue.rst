@@ -1,7 +1,7 @@
-datacat.queue module
+pipecat.queue module
 ====================
 
-.. automodule:: datacat.queue
+.. automodule:: pipecat.queue
     :members:
     :undoc-members:
     :show-inheritance:

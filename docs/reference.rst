@@ -1,4 +1,4 @@
-.. image:: ../artwork/datacat.png
+.. image:: ../artwork/pipecat.png
   :width: 200px
   :align: right
 
@@ -10,11 +10,14 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   datacat.rst
-   datacat.limit.rst
-   datacat.queue.rst
-   datacat.record.rst
-   datacat.source.rst
-   datacat.source.charger.rst
-   datacat.source.time.rst
-   datacat.storage.rst
+   pipecat.rst
+   pipecat.device.rst
+   pipecat.device.gps.rst
+   pipecat.limit.rst
+   pipecat.queue.rst
+   pipecat.record.rst
+   pipecat.source.rst
+   pipecat.source.charger.rst
+   pipecat.source.time.rst
+   pipecat.storage.rst
+   pipecat.udp.rst

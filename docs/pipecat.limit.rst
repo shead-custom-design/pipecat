@@ -1,7 +1,7 @@
-datacat.limit module
+pipecat.limit module
 ====================
 
-.. automodule:: datacat.limit
+.. automodule:: pipecat.limit
     :members:
     :undoc-members:
     :show-inheritance:

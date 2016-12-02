@@ -22,7 +22,7 @@ import sys
 
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 docs_dir = os.path.join(root_dir, "docs")
-package_dir = os.path.join(root_dir, "datacat")
+package_dir = os.path.join(root_dir, "pipecat")
 
 copyright_notice = """# Copyright 2016 Timothy M. Shead
 #

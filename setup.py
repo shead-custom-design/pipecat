@@ -16,7 +16,7 @@ from setuptools import setup, find_packages
 import re
 
 setup(
-    name="datacat",
+    name="pipecat",
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Environment :: Console",
@@ -39,11 +39,11 @@ setup(
     packages=find_packages(),
     scripts=[
         ],
-    url="http://datacat.readthedocs.org",
+    url="http://pipecat.readthedocs.org",
     version=re.search(
         r"^__version__ = ['\"]([^'\"]*)['\"]",
         open(
-            "datacat/__init__.py",
+            "pipecat/__init__.py",
             "r").read(),
         re.M).group(1),
 )

@@ -95,9 +95,9 @@ qthelp:
 	@echo
 	@echo "Build finished; now you can run "qcollectiongenerator" with the" \
 	      ".qhcp project file in $(BUILDDIR)/qthelp, like this:"
-	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/DataCat.qhcp"
+	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/Pipecat.qhcp"
 	@echo "To view the help file:"
-	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/DataCat.qhc"
+	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/Pipecat.qhc"
 
 .PHONY: applehelp
 applehelp:
@@ -114,8 +114,8 @@ devhelp:
 	@echo
 	@echo "Build finished."
 	@echo "To view the help file:"
-	@echo "# mkdir -p $$HOME/.local/share/devhelp/DataCat"
-	@echo "# ln -s $(BUILDDIR)/devhelp $$HOME/.local/share/devhelp/DataCat"
+	@echo "# mkdir -p $$HOME/.local/share/devhelp/Pipecat"
+	@echo "# ln -s $(BUILDDIR)/devhelp $$HOME/.local/share/devhelp/Pipecat"
 	@echo "# devhelp"
 
 .PHONY: epub

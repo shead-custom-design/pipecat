@@ -19,13 +19,13 @@ from __future__ import absolute_import, division, print_function
 import threading
 import Queue
 
-import datacat.record
-import datacat.queue
+import pipecat.record
+import pipecat.queue
 
 def add(source, key, value):
     """Adds a key-value pair to every record returned from another source."""
     for record in source:
-        datacat.record.add_field(record, key, value)
+        pipecat.record.add_field(record, key, value)
         yield record
 
 
@@ -41,15 +41,15 @@ def multiplex(*sources):
     queue = Queue.Queue()
     consumers = []
     for source in sources:
-        thread = threading.Thread(target=datacat.queue.send, args=(source, queue))
+        thread = threading.Thread(target=pipecat.queue.send, args=(source, queue))
         thread.start()
-        consumers.append(datacat.queue.receive(queue))
+        consumers.append(pipecat.queue.receive(queue))
     return concatenate(consumers)
 
 
 def trace(source):
     """Log records for debugging."""
     for record in source:
-        datacat.log.debug(record)
+        pipecat.log.debug(record)
         yield record
 

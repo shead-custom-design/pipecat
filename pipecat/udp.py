@@ -19,7 +19,7 @@ from __future__ import absolute_import, division, print_function
 
 import socket
 
-import datacat.record
+import pipecat.record
 
 def receive(address, maxsize):
     """Receive messages from a UDP socket."""
@@ -29,8 +29,8 @@ def receive(address, maxsize):
         string, address = s.recvfrom(maxsize)
 
         record = {}
-        datacat.record.add_field(record, "string", string)
-        datacat.record.add_field(record, "address", address)
+        pipecat.record.add_field(record, "string", string)
+        pipecat.record.add_field(record, "address", address)
 
         yield record
 
