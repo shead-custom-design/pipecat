@@ -19,6 +19,12 @@
 
 from __future__ import absolute_import, division, print_function
 
+# For portability between Python 2 and 3
+try:
+    from Queue import Queue, Empty
+except:
+    from queue import Queue, Empty
+
 def receive(queue):
     """Receive records from a queue."""
     while True:

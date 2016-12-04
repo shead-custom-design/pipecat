@@ -20,7 +20,6 @@
 from __future__ import absolute_import, division, print_function
 
 import threading
-import Queue
 
 import pipecat.record
 import pipecat.queue
@@ -41,7 +40,7 @@ def concatenate(sources):
 
 def multiplex(*sources):
     """Interleave records from multiple sources."""
-    queue = Queue.Queue()
+    queue = pipecat.queue.Queue()
     consumers = []
     for source in sources:
         thread = threading.Thread(target=pipecat.queue.send, args=(source, queue))

@@ -22,7 +22,6 @@ from __future__ import absolute_import, division, print_function
 import itertools
 import threading
 import time
-import Queue
 
 import pipecat.queue
 
@@ -41,7 +40,7 @@ def duration(source, duration, timeout=pipecat.quantity(0.1, pipecat.units.secon
     end_time = time.time() + duration.to(pipecat.units.seconds).magnitude
     queue_timeout = timeout.to(pipecat.units.seconds).magnitude
 
-    queue = Queue.Queue()
+    queue = pipecat.queue.Queue()
     thread = threading.Thread(target=pipecat.queue.send, args=(source, queue))
     thread.start()
 
@@ -51,7 +50,7 @@ def duration(source, duration, timeout=pipecat.quantity(0.1, pipecat.units.secon
             break
         try:
             record = queue.get(block=True, timeout=queue_timeout)
-        except Queue.Empty:
+        except pipecat.queue.Empty:
             continue
         if record is StopIteration:
             break
@@ -74,7 +73,7 @@ def timeout(source, timeout, initial=pipecat.quantity(1, pipecat.units.hours)): 
     regular_timeout = timeout.to(pipecat.units.seconds).magnitude
     current_timeout = initial_timeout
 
-    queue = Queue.Queue()
+    queue = pipecat.queue.Queue()
     thread = threading.Thread(target=pipecat.queue.send, args=(source, queue))
     thread.start()
 
@@ -82,7 +81,7 @@ def timeout(source, timeout, initial=pipecat.quantity(1, pipecat.units.hours)): 
         try:
             record = queue.get(block=True, timeout=current_timeout)
             current_timeout = regular_timeout
-        except Queue.Empty:
+        except pipecat.queue.Empty:
             pipecat.log.info("Iteration stopped by %s timeout.", timeout)
             break
         if record is StopIteration:
