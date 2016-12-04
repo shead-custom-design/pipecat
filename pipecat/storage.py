@@ -25,7 +25,7 @@ import os
 
 import numpy
 
-import pipecat
+import pipecat.compatibility
 
 class Table(object):
     def __init__(self):
@@ -68,7 +68,12 @@ class Cache(object):
     def __iter__(self):
         return self
 
-    def next(self):
+    def __next__(self): # For Python 3
+        record = self._source.next()
+        self._storage.append(record)
+        return record
+
+    def next(self): # For Python 2
         record = self._source.next()
         self._storage.append(record)
         return record
@@ -111,7 +116,7 @@ def csv(source, fobj):
             index += 1
             yield record
 
-    if isinstance(fobj, basestring):
+    if isinstance(fobj, pipecat.compatibility.string_type):
         with open(fobj, "a+b") as fobj:
             for record in implementation(source, fobj):
                 yield record

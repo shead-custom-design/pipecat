@@ -11,6 +11,7 @@ Contents:
    :maxdepth: 2
 
    pipecat.rst
+   pipecat.compatibility.rst
    pipecat.device.rst
    pipecat.device.charger.rst
    pipecat.device.gps.rst
