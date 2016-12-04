@@ -12,12 +12,12 @@ Contents:
 
    pipecat.rst
    pipecat.device.rst
+   pipecat.device.charger.rst
    pipecat.device.gps.rst
    pipecat.limit.rst
    pipecat.queue.rst
    pipecat.record.rst
    pipecat.source.rst
-   pipecat.source.charger.rst
    pipecat.source.time.rst
    pipecat.storage.rst
    pipecat.udp.rst
