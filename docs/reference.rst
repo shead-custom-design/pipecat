@@ -21,4 +21,5 @@ Contents:
    pipecat.source.rst
    pipecat.source.time.rst
    pipecat.storage.rst
+   pipecat.storage.csv.rst
    pipecat.udp.rst
