@@ -21,9 +21,9 @@ from __future__ import absolute_import, division, print_function
 
 # For portability between Python 2 and 3
 try:
-    from Queue import Queue, Empty
-except:
-    from queue import Queue, Empty
+    from Queue import Queue, Empty # pylint: disable=unused-import,import-error
+except ImportError:
+    from queue import Queue, Empty # pylint: disable=unused-import,import-error
 
 def receive(queue):
     """Receive records from a queue."""
