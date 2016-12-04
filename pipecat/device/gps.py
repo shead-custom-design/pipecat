@@ -20,6 +20,7 @@
 
 from __future__ import absolute_import, division, print_function
 
+import functools
 import operator
 
 import pipecat.record
@@ -46,7 +47,7 @@ def nmea(source):
         sentence = sentence[1:].strip()
         sentence, checksum = sentence.split("*", 1)
         checksum = int(checksum, 16)
-        calculated_checksum = reduce(operator.xor, (ord(s) for s in sentence), 0)
+        calculated_checksum = functools.reduce(operator.xor, (ord(s) for s in sentence), 0)
         if checksum != calculated_checksum:
             pipecat.log.warning("NMEA sentence failed checksum.")
             continue
