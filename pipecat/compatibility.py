@@ -17,8 +17,7 @@
 
 """Pipecat has been implemented to work equally well in Python 2 and Python 3
 using a single codebase, without the use of code-modification tools like
-`2to3`.  The `pipecat.compatibility` module contains code to facilitate this.
-"""
+`2to3`.  This module contains code to facilitate this."""
 
 from __future__ import absolute_import, division, print_function
 

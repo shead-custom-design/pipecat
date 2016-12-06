@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Pipecat.  If not, see <http://www.gnu.org/licenses/>.
 
-"""Options to constrain the information that is logged."""
+"""Functions to limit the output of a logging pipeline."""
 
 from __future__ import absolute_import, division, print_function
 

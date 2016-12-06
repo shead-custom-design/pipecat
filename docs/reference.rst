@@ -14,12 +14,12 @@ Contents:
    pipecat.compatibility.rst
    pipecat.device.rst
    pipecat.device.charger.rst
+   pipecat.device.clock.rst
    pipecat.device.gps.rst
    pipecat.limit.rst
    pipecat.queue.rst
    pipecat.record.rst
    pipecat.source.rst
-   pipecat.source.time.rst
    pipecat.storage.rst
    pipecat.storage.csv.rst
    pipecat.udp.rst

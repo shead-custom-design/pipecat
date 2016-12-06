@@ -15,27 +15,19 @@
 # You should have received a copy of the GNU General Public License
 # along with Pipecat.  If not, see <http://www.gnu.org/licenses/>.
 
-"""Data sources that provide information related to time."""
+"""Data sources that retrieve information from clocks."""
 
 from __future__ import absolute_import, division, print_function
 
 import time
 
-import arrow
-
-import pipecat.record
-
-def timestamp(source, key="timestamp"):
-    """Add a timestamp to every record returned from another source."""
-    for record in source:
-        pipecat.record.add_field(record, key, arrow.utcnow())
-        yield record
-
+import pipecat
 
 def metronome(rate=pipecat.quantity(1.0, pipecat.units.seconds)):
-    """Generate an empty record at fixed time intervals."""
+    """Generate an empty record at fixed time intervals using the host clock."""
+    delay = rate.to(pipecat.units.seconds).magnitude
     while True:
         yield dict()
-        time.sleep(rate.to(pipecat.units.seconds).magnitude)
+        time.sleep(delay)
 
 

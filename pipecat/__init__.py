@@ -15,8 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with Pipecat.  If not, see <http://www.gnu.org/licenses/>.
 
-
-"""Data logging library."""
+"""Elegant, flexible data logging in Python for connected sensors and
+instruments."""
 
 from __future__ import absolute_import, division, print_function
 
@@ -26,8 +26,12 @@ import pint
 
 __version__ = "0.1.0-dev"
 
+#: :class:`logging.Logger` used to perform all module logging.
 log = logging.getLogger(__name__)
 
+#: :class:`pint.unit.UnitRegistry` that supplies units for physical quantities stored in records.
 units = pint.UnitRegistry()
+#: Constructor for physical quantities stored in records.
 quantity = units.Quantity
+
 

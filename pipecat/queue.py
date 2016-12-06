@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Pipecat.  If not, see <http://www.gnu.org/licenses/>.
 
-"""Communication with Queue.Queue."""
+"""Functions for working with queues."""
 
 from __future__ import absolute_import, division, print_function
 
