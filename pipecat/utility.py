@@ -15,52 +15,31 @@
 # You should have received a copy of the GNU General Public License
 # along with Pipecat.  If not, see <http://www.gnu.org/licenses/>.
 
-"""Data sources from which information can be logged."""
+"""Convenience functions for working with data sources."""
 
 from __future__ import absolute_import, division, print_function
-
-import threading
 
 import arrow
 
 import pipecat.record
-import pipecat.queue
 
 
 def add_field(source, key, value):
-    """Adds a key-value pair to every record returned from another source."""
+    """Adds a key-value pair to every record returned from a source."""
     for record in source:
         pipecat.record.add_field(record, key, value)
         yield record
 
 
 def add_timestamp(source, key="timestamp"):
-    """Add a timestamp to every record returned from another source."""
+    """Add a timestamp to every record returned from a source."""
     for record in source:
         pipecat.record.add_field(record, key, arrow.utcnow())
         yield record
 
 
-def concatenate(sources):
-    """Concatenate records from multiple sources."""
-    for source in sources:
-        for record in source:
-            yield record
-
-
-def multiplex(*sources):
-    """Interleave records from multiple sources."""
-    queue = pipecat.queue.Queue()
-    consumers = []
-    for source in sources:
-        thread = threading.Thread(target=pipecat.queue.send, args=(source, queue))
-        thread.start()
-        consumers.append(pipecat.queue.receive(queue))
-    return concatenate(consumers)
-
-
 def trace(source):
-    """Log records for debugging."""
+    """Log every record returned from a source for debugging."""
     for record in source:
         pipecat.log.debug(record)
         yield record

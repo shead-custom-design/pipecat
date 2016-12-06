@@ -1,7 +1,7 @@
-pipecat.storage module
+pipecat.connect module
 ======================
 
-.. automodule:: pipecat.storage
+.. automodule:: pipecat.connect
     :members:
     :undoc-members:
     :show-inheritance:

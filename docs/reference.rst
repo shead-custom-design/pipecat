@@ -12,6 +12,7 @@ Contents:
 
    pipecat.rst
    pipecat.compatibility.rst
+   pipecat.connect.rst
    pipecat.device.rst
    pipecat.device.charger.rst
    pipecat.device.clock.rst
@@ -19,7 +20,7 @@ Contents:
    pipecat.limit.rst
    pipecat.queue.rst
    pipecat.record.rst
-   pipecat.source.rst
-   pipecat.storage.rst
-   pipecat.storage.csv.rst
+   pipecat.store.rst
+   pipecat.store.csv.rst
    pipecat.udp.rst
+   pipecat.utility.rst

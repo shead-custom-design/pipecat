@@ -91,7 +91,7 @@ def cache(source):
 
     Return
     ------
-    cache: instance of :class:`pipecat.storage.Cache`.
+    cache: instance of :class:`pipecat.store.Cache`.
     """
     return Cache(source)
 
