@@ -38,19 +38,19 @@ def add_timestamp(source, key="timestamp"):
         yield record
 
 
-def trace(source, label=None):
+def trace(source, name=None):
     """Log the behavior of a source for debugging."""
-    if label is None:
-        label = source
+    if name is None:
+        name = source.__name__
 
-    pipecat.log.debug("%s started" % label)
+    pipecat.log.debug("%s started", name)
 
     try:
         for record in source:
-            pipecat.log.debug("%s record %s" % (label, record))
+            pipecat.log.debug("%s record: %s", name, record)
             yield record
     except GeneratorExit:
         pass
 
-    pipecat.log.debug("%s finished" % label)
+    pipecat.log.debug("%s finished", name)
 

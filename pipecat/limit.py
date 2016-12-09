@@ -26,17 +26,23 @@ import time
 import pipecat.queue
 
 
-def count(source, count): # pylint: disable=redefined-outer-name
+def count(source, count, name=None): # pylint: disable=redefined-outer-name
     """Limits the number of records returned from another source."""
+    if name is None:
+        name = source.__name__
+
     for index in itertools.count():
         if index + 1 > count:
-            pipecat.log.info("Iteration stopped after %s records.", count)
+            pipecat.log.info("%s iteration stopped after %s records.", name, count)
             break
         yield next(source)
 
 
-def duration(source, duration, timeout=pipecat.quantity(0.1, pipecat.units.seconds)): # pylint: disable=redefined-outer-name
+def duration(source, duration, timeout=pipecat.quantity(0.1, pipecat.units.seconds), name=None): # pylint: disable=redefined-outer-name
     """Return records from another source until a fixed time duration has expired."""
+    if name is None:
+        name = source.__name__
+
     end_time = time.time() + duration.to(pipecat.units.seconds).magnitude
     queue_timeout = timeout.to(pipecat.units.seconds).magnitude
 
@@ -47,7 +53,7 @@ def duration(source, duration, timeout=pipecat.quantity(0.1, pipecat.units.secon
 
     while True:
         if time.time() >= end_time:
-            pipecat.log.info("Iteration stopped after %s time limit.", duration)
+            pipecat.log.info("%s iteration stopped after %s time limit.", name, duration)
             shutdown.set()
             break
         try:
@@ -59,7 +65,7 @@ def duration(source, duration, timeout=pipecat.quantity(0.1, pipecat.units.secon
         yield record
 
 
-def timeout(source, timeout, initial=pipecat.quantity(1, pipecat.units.hours)): # pylint: disable=redefined-outer-name
+def timeout(source, timeout, initial=pipecat.quantity(1, pipecat.units.hours), name=None): # pylint: disable=redefined-outer-name
     """Return records from another source until they stop arriving.
 
     Parameters
@@ -71,6 +77,9 @@ def timeout(source, timeout, initial=pipecat.quantity(1, pipecat.units.hours)): 
     initial: quantity, optional
         Maximum time to wait for the first record.
     """
+    if name is None:
+        name = source.__name__
+
     initial_timeout = initial.to(pipecat.units.seconds).magnitude
     regular_timeout = timeout.to(pipecat.units.seconds).magnitude
     current_timeout = initial_timeout
@@ -85,7 +94,7 @@ def timeout(source, timeout, initial=pipecat.quantity(1, pipecat.units.hours)): 
             record = queue.get(block=True, timeout=current_timeout)
             current_timeout = regular_timeout
         except pipecat.queue.Empty:
-            pipecat.log.info("Iteration stopped by %s timeout.", timeout)
+            pipecat.log.info("%s iteration stopped by %s timeout.", name, timeout)
             shutdown.set()
             break
         if record is StopIteration:
