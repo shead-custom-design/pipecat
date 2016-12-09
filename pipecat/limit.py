@@ -41,12 +41,14 @@ def duration(source, duration, timeout=pipecat.quantity(0.1, pipecat.units.secon
     queue_timeout = timeout.to(pipecat.units.seconds).magnitude
 
     queue = pipecat.queue.Queue()
-    thread = threading.Thread(target=pipecat.queue.send, args=(source, queue))
+    shutdown = threading.Event()
+    thread = threading.Thread(target=pipecat.queue.send, args=(source, queue, shutdown))
     thread.start()
 
     while True:
         if time.time() >= end_time:
             pipecat.log.info("Iteration stopped after %s time limit.", duration)
+            shutdown.set()
             break
         try:
             record = queue.get(block=True, timeout=queue_timeout)
@@ -74,7 +76,8 @@ def timeout(source, timeout, initial=pipecat.quantity(1, pipecat.units.hours)): 
     current_timeout = initial_timeout
 
     queue = pipecat.queue.Queue()
-    thread = threading.Thread(target=pipecat.queue.send, args=(source, queue))
+    shutdown = threading.Event()
+    thread = threading.Thread(target=pipecat.queue.send, args=(source, queue, shutdown))
     thread.start()
 
     while True:
@@ -83,8 +86,15 @@ def timeout(source, timeout, initial=pipecat.quantity(1, pipecat.units.hours)): 
             current_timeout = regular_timeout
         except pipecat.queue.Empty:
             pipecat.log.info("Iteration stopped by %s timeout.", timeout)
+            shutdown.set()
             break
         if record is StopIteration:
             break
         yield record
+
+def until(source, key, value):
+    for record in source:
+        yield record
+        if key in record and record[key] == value:
+            break
 
