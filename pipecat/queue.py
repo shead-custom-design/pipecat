@@ -33,9 +33,11 @@ def receive(queue):
             break
         yield record
 
-def send(source, queue):
+def send(source, queue, shutdown=None):
     """Send records from a source to a queue."""
     for record in source:
         queue.put(record)
+        if shutdown and shutdown.isSet():
+            return
     queue.put(StopIteration)
 
