@@ -22,7 +22,7 @@ from __future__ import absolute_import, division, print_function
 from pipecat import quantity, units
 from pipecat.record import add_field
 
-def icharger208b(fobj):
+def icharger208b(source):
     """Read data from an iCharger 208B battery charger.
 
     Logs data events emitted by the charger during charge, discharge, etc.  Likely works with other
@@ -74,8 +74,8 @@ def icharger208b(fobj):
         12: "discharge-external",
     }
 
-    for line in fobj:
-        raw = line.strip().split(";")
+    for record in source:
+        raw = record["string"].strip().split(";")
 
         record = dict()
         add_field(record, ("charger", "mode"), modes[int(raw[1])])
