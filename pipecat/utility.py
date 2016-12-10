@@ -38,6 +38,14 @@ def add_timestamp(source, key="timestamp"):
         yield record
 
 
+def readline(source):
+    """Extract lines from a file-like object."""
+    for line in source:
+        record = {}
+        pipecat.record.add_field(record, "string", line)
+        yield record
+
+
 def trace(source, name=None):
     """Log the behavior of a source for debugging."""
     if name is None:
