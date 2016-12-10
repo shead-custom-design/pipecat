@@ -25,14 +25,39 @@ import pipecat.queue
 
 
 def concatenate(sources):
-    """Concatenate records from multiple sources."""
+    """Concatenate records from multiple sources.
+
+    Yields all of the records from the first source, then all the records from
+    the next source, and-so-on until every source has been consumed.  Note that
+    this means that it only makes sense to use sources that return a bounded
+    number of records with `concatenate()`!
+
+    Parameters
+    ----------
+    sources: sequence of iterable expressions, required
+
+    Yields
+    ------
+    records
+        Returns records from each source in-turn.
+    """
     for source in sources:
         for record in source:
             yield record
 
 
-def multiplex(*sources):
-    """Interleave records from multiple sources."""
+def multiplex(sources):
+    """Interleave records from multiple sources.
+
+    Parameters
+    ----------
+    sources: sequence of iterable expressions, required
+
+    Yields
+    ------
+    records
+        Returns records from all sources as they arrive.
+    """
     queue = pipecat.queue.Queue()
     consumers = []
     for source in sources:

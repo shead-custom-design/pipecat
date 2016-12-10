@@ -15,7 +15,16 @@
 # You should have received a copy of the GNU General Public License
 # along with Pipecat.  If not, see <http://www.gnu.org/licenses/>.
 
-"""Data sources for specific hardware devices."""
+"""Data sources for specific hardware devices.
+
+See sub-modules of this module for different classes of hardware device
+supported by Pipecat:
+
+* Battery chargers - :mod:`pipecat.device.charger`
+* Clocks - :mod:`pipecat.device.clock`
+* GPS receivers - :mod:`pipecat.device.gps`
+
+"""
 
 from __future__ import absolute_import, division, print_function
 

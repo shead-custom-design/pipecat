@@ -26,12 +26,29 @@ import pint
 
 __version__ = "0.1.0-dev"
 
-#: :class:`logging.Logger` used to perform all module logging.
 log = logging.getLogger(__name__)
+""":class:`logging.Logger`: All pipecat logging output uses this logger.
+"""
 
-#: :class:`pint.unit.UnitRegistry` that supplies units for physical quantities stored in records.
 units = pint.UnitRegistry()
-#: Constructor for physical quantities stored in records.
+""":class:`pint.unit.UnitRegistry`: Provides units for defining and converting physical quantities.
+
+Examples
+--------
+>>> charge = 330 * pipecat.units.milliamps * pipecat.units.hours
+>>> temperature = pipecat.quantity(23, pipecat.units.degC)
+>>> temperature.to(pipecat.units.degF)
+<Quantity(73.4000004, 'degF')>
+"""
+
 quantity = units.Quantity
+"""class: Used to create and store physical quantities.
+
+Examples
+--------
+>>> timeout = pipecat.quantity(5, pipecat.units.minutes)
+>>> charge = pipecat.quantity(330, pipecat.units.milliamps * pipecat.units.hours)
+>>> latitude = pipecat.quantity(35.1 pipecat.units.degrees)
+"""
 
 

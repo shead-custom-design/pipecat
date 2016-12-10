@@ -25,11 +25,38 @@ from pipecat.record import add_field
 def icharger208b(fobj):
     """Read data from an iCharger 208B battery charger.
 
-    Logs data events emitted by the charger during charge, discharge, etc.
+    Logs data events emitted by the charger during charge, discharge, etc.  Likely works with other
+    models from iCharger, but this is untested.  Consider :ref:`submitting-feedback` to let us know.
+
+    This model battery charger comes with USB cable that provides serial-over-USB communication with
+    the host computer.  To connect with the charger, you'll need to open a handle to the appropriate
+    serial port, which will vary between platforms and based on the number and configuration of devices
+    currently connected.
+
+    Examples
+    --------
+
+    Open a serial port on a Mac OSX computer and connect the charger object:
+
+    >>> fobj = serial.serial_for_url("/dev/cu.SLAB_USBtoUART", baudrate=128000)
+    >>> pipe = pipecat.device.charger.icharger208b(fobj)
+
+    Retrieve records from the charger during charging:
+
+    >>> for record in pipe:
+    ...   print record
 
     Parameters
     ----------
-    fobj: file-like object, typically an instance of serial.Stream
+    fobj: file-like object, typically an instance of :class:`serial.Stream`
+
+    Yields
+    ------
+    records
+        Records will contain information including the charge mode, supply
+        voltage, battery voltage, battery current, internal and external
+        charger temperature, and the total charged added-to / removed-from the
+        battery.
     """
 
     modes = {
