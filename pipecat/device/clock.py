@@ -24,7 +24,32 @@ import time
 import pipecat
 
 def metronome(rate=pipecat.quantity(1.0, pipecat.units.seconds)):
-    """Generate an empty record at fixed time intervals using the host clock."""
+    """Generate an empty record at fixed time intervals using the host clock.
+
+    Typically, you would use functions such as
+    :func:`pipecat.utility.add_field` or :func:`pipecat.utility.add_timestamp`
+    to populate the (otherwise empty) records.
+
+    Examples
+    --------
+
+    If you want to know what time it is, at 5-minute intervals:
+
+    >>> pipe = pipecat.device.clock.metronome(pipecat.quantity(5, pipecat.units.minutes))
+    >>> pipe = pipecat.utility.add_timestamp(pipe)
+    >>> for record in pipe:
+    ...   print record
+
+    Parameters
+    ----------
+    rate: time quantity, required
+        The amount of time to wait between records.
+
+    Yields
+    ------
+    records
+        Yields an empty record at fixed time intervals.
+    """
     delay = rate.to(pipecat.units.seconds).magnitude
     while True:
         yield dict()
