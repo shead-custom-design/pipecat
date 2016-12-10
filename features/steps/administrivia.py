@@ -46,6 +46,9 @@ copyright_notice = """# Copyright 2016 Timothy M. Shead
 # along with Pipecat.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+portability_imports = """from __future__ import absolute_import, division, print_function
+"""
+
 @given(u'all sources.')
 def step_impl(context):
     context.sources = []
@@ -57,12 +60,34 @@ def step_impl(context):
             context.sources.append(os.path.join(directory, filename))
     context.sources = sorted(context.sources)
 
+
 @then(u'every source must contain a copyright notice.')
 def step_impl(context):
     for source in context.sources:
         with open(source, "r") as fobj:
             if not fobj.read().startswith(copyright_notice):
                 raise AssertionError("%s missing copyright notice." % source)
+
+
+@given(u'all package sources.')
+def step_impl(context):
+    context.sources = []
+    for directory, subdirectories, filenames in os.walk(package_dir):
+        for filename in filenames:
+            if os.path.splitext(filename)[1] not in [".py"]:
+                continue
+
+            context.sources.append(os.path.join(directory, filename))
+    context.sources = sorted(context.sources)
+
+
+@then(u'every source must contain portability imports.')
+def step_impl(context):
+    for source in context.sources:
+        with open(source, "r") as fobj:
+            if portability_imports not in fobj.read():
+                raise AssertionError("%s missing portability imports." % source)
+
 
 @given(u'pylint')
 def step_impl(context):
@@ -71,6 +96,7 @@ def step_impl(context):
             context.pylint = os.path.join(path, "pylint")
             return
     context.scenario.skip(reason="The pylint command is not available.")
+
 
 @then(u'all pylint tests must pass without any messages.')
 def step_impl(context):
