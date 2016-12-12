@@ -25,8 +25,9 @@ from pipecat.record import add_field
 def icharger208b(source):
     """Parse data from an iCharger 208B battery charger.
 
-    Parses data events emitted by the charger during charge, discharge, etc.  Likely works with other
-    models from iCharger, but this is untested.  Consider :ref:`submitting-your-devices` to let us know.
+    Parses data events emitted by the charger during charge, discharge, etc.
+    Likely works with other models from iCharger, but this is untested.
+    Consider :ref:`contributing` to let us know.
 
     This model battery charger comes with a USB cable that provides
     serial-over-USB communication with the host computer.  To connect with the

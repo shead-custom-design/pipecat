@@ -2,8 +2,19 @@
   :width: 200px
   :align: right
 
+.. _contributing:
+
 Contributing
 ============
+
+Even if you're not in a position to contribute code to Pipecat, there are many
+ways you can help the project out:
+
+* Send the names of serial ports that work with a device on your platform, so we can document it.
+* Let us know if one of our existing devices works with some other model or brand of hardware, so we can document *that*.
+* Send us a file containing sample output from your device.
+* Tell us if our code doesn't work with your device.
+* Spread the word!
 
 Getting Started
 ---------------
