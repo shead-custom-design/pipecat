@@ -28,7 +28,7 @@ def concatenate(sources):
     """Concatenate records from multiple sources.
 
     Yields all of the records from the first source, then all the records from
-    the next source, and-so-on until every source has been consumed.  Note that
+    the second source, and-so-on until every source has been consumed.  Note that
     this means that it only makes sense to use sources that return a bounded
     number of records with `concatenate()`!
 
@@ -38,7 +38,7 @@ def concatenate(sources):
 
     Yields
     ------
-    records
+    records: dict
         Returns records from each source in-turn.
     """
     for source in sources:
@@ -55,7 +55,7 @@ def multiplex(sources):
 
     Yields
     ------
-    records
+    records: dict
         Returns records from all sources as they arrive.
     """
     queue = pipecat.queue.Queue()
