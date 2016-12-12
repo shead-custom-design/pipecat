@@ -37,7 +37,7 @@ def icharger208b(source):
     Examples
     --------
 
-    Open a serial port on a Mac OSX computer using :ref:`pyserial`, read lines from the serial port, 
+    Open a serial port on a Mac OSX computer using :ref:`pyserial`, read lines from the serial port,
     parse them into records, and print them to stdout:
 
     >>> pipe = serial.serial_for_url("/dev/cu.SLAB_USBtoUART", baudrate=128000)
