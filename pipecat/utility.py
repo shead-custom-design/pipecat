@@ -25,29 +25,55 @@ import pipecat.record
 
 
 def add_field(source, key, value):
-    """Adds a key-value pair to every record returned from a source."""
+    """Adds a key-value pair to every record returned from a source.
+
+    Parameters
+    ----------
+    source: :ref:`Record generator <record-generators>`, required
+    key: :ref:`Record key <record-keys>`, required
+    value: any value.
+    """
     for record in source:
         pipecat.record.add_field(record, key, value)
         yield record
 
 
 def add_timestamp(source, key="timestamp"):
-    """Add a timestamp to every record returned from a source."""
+    """Add a timestamp to every record returned from a source.
+
+    Parameters
+    ----------
+    source: :ref:`Record generator <record-generators>`, required
+    key: :ref:`Record key <record-keys>`, required
+    """
     for record in source:
         pipecat.record.add_field(record, key, arrow.utcnow())
         yield record
 
 
-def readline(source):
-    """Extract lines from a file-like object."""
-    for line in source:
+def readline(fobj):
+    """Extract lines from a file or file-like object.
+
+    Parameters
+    ----------
+    fobj: file-like object, required
+        This could be an open file, instance of :class:`io.StringIO`, a serial
+        connection, or any other object that returns lines of text during
+        iteration.
+    """
+    for line in fobj:
         record = {}
         pipecat.record.add_field(record, "string", line)
         yield record
 
 
 def trace(source, name=None):
-    """Log the behavior of a source for debugging."""
+    """Log the behavior of a source for debugging.
+
+    Parameters
+    ----------
+    source: :ref:`Record generator <record-generators>`, required
+    """
     if name is None:
         name = source.__name__
 

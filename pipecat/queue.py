@@ -30,7 +30,7 @@ def receive(queue):
 
     Parameters
     ----------
-    queue: :class:`queue.Queue`, required.
+    queue: :class:`queue.Queue`, required
 
     Yields
     ------
@@ -47,8 +47,8 @@ def send(source, queue, shutdown=None):
 
     Parameters
     ----------
-    source: iterable expression, required.
-    queue: :class:`queue.Queue`, required.
+    source: :ref:`Record generator <record-generators>`, required
+    queue: :class:`queue.Queue`, required
     shutdown: :class:`threading.Event`, optional.
         Set the event to safely stop sending from another thread.
     """

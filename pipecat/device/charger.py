@@ -26,7 +26,7 @@ def icharger208b(source):
     """Parse data from an iCharger 208B battery charger.
 
     Parses data events emitted by the charger during charge, discharge, etc.  Likely works with other
-    models from iCharger, but this is untested.  Consider :ref:`submitting-your-device` to let us know.
+    models from iCharger, but this is untested.  Consider :ref:`submitting-your-devices` to let us know.
 
     This model battery charger comes with a USB cable that provides
     serial-over-USB communication with the host computer.  To connect with the
@@ -37,7 +37,7 @@ def icharger208b(source):
     Examples
     --------
 
-    Open a serial port on a Mac OSX computer using :ref:`pyserial`, read lines from the serial port,
+    Open a serial port on a Mac OSX computer using `pySerial <http://pyserial.readthedocs.io>`_, read lines from the serial port,
     parse them into records, and print them to stdout:
 
     >>> pipe = serial.serial_for_url("/dev/cu.SLAB_USBtoUART", baudrate=128000)
@@ -48,7 +48,7 @@ def icharger208b(source):
 
     Parameters
     ----------
-    source: iterator expression returning records containing a "string" field.
+    source: :ref:`Record generator <record-generators>` returning records containing a "string" field.
 
     Yields
     ------

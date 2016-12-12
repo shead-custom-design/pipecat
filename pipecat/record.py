@@ -30,7 +30,7 @@ def add_field(record, key, value):
     ----------
     record: dict, required
         Dictionary of key-value pairs that constitute a record.
-    key: string or tuple of strings, required
+    key: :ref:`Record key <record-keys>`, required
         Record key to be overwritten.
     value: object
         New record value.

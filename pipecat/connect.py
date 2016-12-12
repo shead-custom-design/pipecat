@@ -34,7 +34,7 @@ def concatenate(sources):
 
     Parameters
     ----------
-    sources: sequence of iterable expressions, required
+    sources: sequence of :ref:`record-generators`, required
 
     Yields
     ------
@@ -51,7 +51,7 @@ def multiplex(sources):
 
     Parameters
     ----------
-    sources: sequence of iterable expressions, required
+    sources: sequence of :ref:`record-generators`, required
 
     Yields
     ------

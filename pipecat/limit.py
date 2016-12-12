@@ -41,12 +41,12 @@ def count(source, count, name=None): # pylint: disable=redefined-outer-name
 
     Parameters
     ----------
-    source: iterator expression producing records, required.
-    count: int, required.
+    source: :ref:`Record generator <record-generators>`, required
+    count: int, required
         The number of records that will be returned from `source`.
     name: string, optional.
-        Optional name for this expression to use in log output.  Defaults to
-        the function name.
+        Optional name for this :ref:`Record generator <record-generators>` to
+        use in log output.  Defaults to the function name.
     """
     if name is None:
         name = source.__name__
@@ -73,15 +73,15 @@ def duration(source, duration, timeout=pipecat.quantity(0.1, pipecat.units.secon
 
     Parameters
     ----------
-    source: iterator expression producing records, required.
-    duration: time quantity, required.
+    source: :ref:`Record generator <record-generators>`, required
+    duration: time quantity, required
         Maximum amount of time that records will be returned from `source`.
     timeout: time quantity, optional.
         Limits the amount of time to block while waiting for output from
         `source`.  This affects the accuracy of when the function exits.
     name: string, optional.
-        Optional name for this expression to use in log output.  Defaults to
-        the function name.
+        Optional name for this :ref:`Record generator <record-generators>` to
+        use in log output.  Defaults to the function name.
     """
     if name is None:
         name = source.__name__
@@ -113,14 +113,14 @@ def timeout(source, timeout, initial=pipecat.quantity(1, pipecat.units.hours), n
 
     Parameters
     ----------
-    source: iterator expression producing records, required
+    source: :ref:`Record generator <record-generators>`, required
     timeout: time quantity, required
         Maximum time to wait for the next record before exiting.
     initial: time quantity, optional
         Maximum time to wait for the first record.
     name: string, optional.
-        Optional name for this expression to use in log output.  Defaults to
-        the function name.
+        Optional name for this :ref:`Record generator <record-generators>` to
+        use in log output.  Defaults to the function name.
     """
     if name is None:
         name = source.__name__
@@ -161,12 +161,12 @@ def until(source, key, value, name=None):
 
     Parameters
     ----------
-    source: iterator expression producing records, required.
-    key: :ref:`field-key`, required.
-    value: anything, required.
+    source: :ref:`Record generator <record-generators>`, required
+    key: :ref:`Record key <record-keys>`, required
+    value: anything, required
     name: string, optional.
-        Optional name for this expression to use in log output.  Defaults to
-        the function name.
+        Optional name for this :ref:`Record generator <record-generators>` to
+        use in log output.  Defaults to the function name.
     """
     if name is None:
         name = source.__name__

@@ -31,7 +31,7 @@ log = logging.getLogger(__name__)
 """
 
 units = pint.UnitRegistry()
-""":class:`pint.unit.UnitRegistry`: Provides units for defining and converting physical quantities.
+"""Provides units for defining and converting physical quantities.
 
 Examples
 --------
@@ -42,7 +42,7 @@ Examples
 """
 
 quantity = units.Quantity
-"""class: Used to create and store physical quantities.
+"""Used to create and store physical quantities.
 
 Examples
 --------

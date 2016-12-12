@@ -33,7 +33,7 @@ def nmea(source):
 
     Parameters
     ----------
-    source: iterator expression returning records containing a "string" field.
+    source: :ref:`Record generator <record-generators>` returning records containing a "string" field.
 
     Yields
     ------

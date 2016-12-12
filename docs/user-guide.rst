@@ -7,8 +7,28 @@
 User Guide
 ==========
 
-Contents:
+.. _record-generators:
 
-.. toctree::
-  :maxdepth: 2
+Record Generators
+-----------------
+
+.. _record-consumers:
+
+Record Consumers
+----------------
+
+.. _records:
+
+Records
+-------
+
+.. _record-keys:
+
+Record Keys
+-----------
+
+.. _submitting-your-devices:
+
+Submitting Your Devices
+-----------------------
 
