@@ -60,5 +60,8 @@ def trace(source, name=None):
     except GeneratorExit:
         pass
 
+    except Exception as e:
+        pipecat.log.debug("%s exception: %s %s", name, type(e), e)
+
     pipecat.log.debug("%s finished", name)
 
