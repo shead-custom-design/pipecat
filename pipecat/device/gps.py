@@ -26,7 +26,23 @@ import operator
 import pipecat.record
 
 def nmea(source):
-    """Parse NMEA messages from raw strings."""
+    """Parse NMEA messages from raw strings.
+
+    Examples
+    --------
+
+    Parameters
+    ----------
+    source: iterator expression returning records containing a "string" field.
+
+    Yields
+    ------
+    records: dict
+        Records will contain varying amounts of time, position, speed, heading,
+        pitch, roll, and quality information based on device sending the data.
+        Support is provided for GPGGA, GPGLL, GPRMC, GPTXT, HCHDG, and PASHR
+        messages.
+    """
     def latitude(degrees, hemisphere):
         degrees = (1.0 if hemisphere == "N" else -1.0) * (float(degrees[:2]) + (float(degrees[2:]) / 60.0))
         return pipecat.quantity(degrees, pipecat.units.degrees)

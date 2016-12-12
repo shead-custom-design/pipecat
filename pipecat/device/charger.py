@@ -23,32 +23,32 @@ from pipecat import quantity, units
 from pipecat.record import add_field
 
 def icharger208b(source):
-    """Read data from an iCharger 208B battery charger.
+    """Parse data from an iCharger 208B battery charger.
 
-    Logs data events emitted by the charger during charge, discharge, etc.  Likely works with other
-    models from iCharger, but this is untested.  Consider :ref:`submitting-feedback` to let us know.
+    Parses data events emitted by the charger during charge, discharge, etc.  Likely works with other
+    models from iCharger, but this is untested.  Consider :ref:`submitting-your-device` to let us know.
 
-    This model battery charger comes with USB cable that provides serial-over-USB communication with
-    the host computer.  To connect with the charger, you'll need to open a handle to the appropriate
-    serial port, which will vary between platforms and based on the number and configuration of devices
-    currently connected.
+    This model battery charger comes with a USB cable that provides
+    serial-over-USB communication with the host computer.  To connect with the
+    charger, you'll need to open a handle to the appropriate serial port, the
+    name of which will vary between platforms and based on the number of
+    devices currently connected, and feed lines of text to the parser.
 
     Examples
     --------
 
-    Open a serial port on a Mac OSX computer and connect the charger object:
+    Open a serial port on a Mac OSX computer using :ref:`pyserial`, read lines from the serial port, 
+    parse them into records, and print them to stdout:
 
-    >>> fobj = serial.serial_for_url("/dev/cu.SLAB_USBtoUART", baudrate=128000)
-    >>> pipe = pipecat.device.charger.icharger208b(fobj)
-
-    Retrieve records from the charger during charging:
-
+    >>> pipe = serial.serial_for_url("/dev/cu.SLAB_USBtoUART", baudrate=128000)
+    >>> pipe = pipecat.utility.readline(pipe)
+    >>> pipe = pipecat.device.charger.icharger208b(pipe)
     >>> for record in pipe:
     ...   print record
 
     Parameters
     ----------
-    fobj: file-like object, typically an instance of :class:`serial.Stream`
+    source: iterator expression returning records containing a "string" field.
 
     Yields
     ------

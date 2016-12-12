@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Pipecat.  If not, see <http://www.gnu.org/licenses/>.
 
-"""Functions to limit the output of a logging pipeline."""
+"""Functions to limit the output of a Pipecat pipeline."""
 
 from __future__ import absolute_import, division, print_function
 
@@ -27,19 +27,62 @@ import pipecat.queue
 
 
 def count(source, count, name=None): # pylint: disable=redefined-outer-name
-    """Limits the number of records returned from another source."""
+    """Limits the number of records returned from a source.
+
+    Examples
+    --------
+
+    Produce seven records at one-second intervals:
+
+    >>> pipe = pipecat.device.clock.metronome()
+    >>> pipe = pipecat.limit.count(pipe, count=7)
+    >>> for record in pipe:
+    ...     print record
+
+    Parameters
+    ----------
+    source: iterator expression producing records, required.
+    count: int, required.
+        The number of records that will be returned from `source`.
+    name: string, optional.
+        Optional name for this expression to use in log output.  Defaults to
+        the function name.
+    """
     if name is None:
         name = source.__name__
 
     for index in itertools.count():
         if index + 1 > count:
-            pipecat.log.info("%s iteration stopped after %s records.", name, count)
+            pipecat.log.debug("%s iteration stopped after %s records.", name, count)
             break
         yield next(source)
 
 
 def duration(source, duration, timeout=pipecat.quantity(0.1, pipecat.units.seconds), name=None): # pylint: disable=redefined-outer-name
-    """Return records from another source until a fixed time duration has expired."""
+    """Return records from a source until a fixed time duration has expired.
+
+    Examples
+    --------
+
+    Produce records at one-second intervals for three minutes:
+
+    >>> pipe = pipecat.device.clock.metronome()
+    >>> pipe = pipecat.limit.duration(pipe, pipecat.quantity(3, pipecat.units.minutes))
+    >>> for record in pipe:
+    ...     print record
+
+    Parameters
+    ----------
+    source: iterator expression producing records, required.
+    duration: time quantity, required.
+        Maximum amount of time that records will be returned from `source`.
+    timeout: time quantity, optional.
+        Limits the amount of time to block while waiting for output from
+        `source`.  This affects the accuracy of when the function exits.
+    name: string, optional.
+        Optional name for this expression to use in log output.  Defaults to
+        the function name.
+    """
     if name is None:
         name = source.__name__
 
@@ -53,7 +96,7 @@ def duration(source, duration, timeout=pipecat.quantity(0.1, pipecat.units.secon
 
     while True:
         if time.time() >= end_time:
-            pipecat.log.info("%s iteration stopped after %s time limit.", name, duration)
+            pipecat.log.debug("%s iteration stopped after %s time limit.", name, duration)
             shutdown.set()
             break
         try:
@@ -70,12 +113,14 @@ def timeout(source, timeout, initial=pipecat.quantity(1, pipecat.units.hours), n
 
     Parameters
     ----------
-    source: generator, required
-        A source of records.
-    timeout: quantity, required
-        Maximum time to wait for the next record.
-    initial: quantity, optional
+    source: iterator expression producing records, required
+    timeout: time quantity, required
+        Maximum time to wait for the next record before exiting.
+    initial: time quantity, optional
         Maximum time to wait for the first record.
+    name: string, optional.
+        Optional name for this expression to use in log output.  Defaults to
+        the function name.
     """
     if name is None:
         name = source.__name__
@@ -94,16 +139,40 @@ def timeout(source, timeout, initial=pipecat.quantity(1, pipecat.units.hours), n
             record = queue.get(block=True, timeout=current_timeout)
             current_timeout = regular_timeout
         except pipecat.queue.Empty:
-            pipecat.log.info("%s iteration stopped by %s timeout.", name, timeout)
+            pipecat.log.debug("%s iteration stopped by %s timeout.", name, timeout)
             shutdown.set()
             break
         if record is StopIteration:
             break
         yield record
 
-def until(source, key, value):
+def until(source, key, value, name=None):
+    """Return records from another source until a record occurs with a specific key and value.
+
+    Examples
+    --------
+
+    Print output from a battery charger until its mode changes to "finished":
+
+    >>> pipe = <battery charger pipeline>
+    >>> pipe = pipecat.limit.until(pipe, "mode", "finished")
+    >>> for record in pipe:
+    ...     print record
+
+    Parameters
+    ----------
+    source: iterator expression producing records, required.
+    key: :ref:`field-key`, required.
+    value: anything, required.
+    name: string, optional.
+        Optional name for this expression to use in log output.  Defaults to
+        the function name.
+    """
+    if name is None:
+        name = source.__name__
     for record in source:
         yield record
         if key in record and record[key] == value:
+            pipecat.log.debug("%s iteration stopped because record contained %s == %r", name, key, value)
             break
 
