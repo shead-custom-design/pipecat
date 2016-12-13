@@ -63,9 +63,9 @@ produces records.  An iterable expression is any expression that can be used as
 the target of the Python `for` statement, and you use `for` loops to read
 records from generators::
 
-    >>> generator = pipecat.device.clock.metronome()
-    >>> for record in generator:
-    ...   pipecat.record.dump(record)
+    generator = pipecat.device.clock.metronome()
+    for record in generator:
+        pipecat.record.dump(record)
 
 Some examples of record generators include:
 
@@ -90,16 +90,73 @@ Record Filters
 --------------
 
 Record filters are any function or object that both consumes and generates
-records.  A majority of components provided by Pipecat fall into this category::
-
-    >>> generator = pipecat.device.clock.metronome()
-    >>> filter = pipecat.utility.add_timestamp(generator)
-    >>> filter = pipecat.limit.duration(filter, duration=pipecat.quantity(5, pipecat.units.minutes))
-    >>> for record in filter:
-    ...   pipecat.record.dump(record)
-
-Record filter examples include:
+records.  Most of the components provided by Pipecat fall into this category.
+Examples include:
 
 * :func:`pipecat.utility.add_timestamp`, which adds a timestamp field to the records it receives.
 * :func:`pipecat.device.gps.nmea`, which takes records containing strings and converts them into records containing navigational information.
+
+Pipes
+-----
+
+When all is said and done, you use Pipecat by hooking-together components to
+create `pipes` that retrieve, process, and store records as part of some larger
+task.  In the following example, we retrieve data from a battery charger
+connected via a serial port, and print it to the console:
+
+.. code-block:: python
+
+    pipe = serial.serial_for_url("/dev/cu.SLAB_USBtoUART", baudrate=128000)
+    pipe = pipecat.utility.readline(pipe)
+    pipe = pipecat.device.charger.icharger208b(pipe)
+    for record in pipe:
+        pipecat.record.dump(record)
+
+If we want to save the records to a CSV file, we simply add an additional component
+to the pipe:
+
+.. code-block:: python
+    :emphasize-lines: 4
+
+    pipe = serial.serial_for_url("/dev/cu.SLAB_USBtoUART", baudrate=128000)
+    pipe = pipecat.utility.readline(pipe)
+    pipe = pipecat.device.charger.icharger208b(pipe)
+    pipe = pipecat.store.csv.write(pipe, "battery.csv")
+    for record in pipe:
+        pipecat.record.dump(record)
+
+Note from this example how we use a single variable to keep track of the
+"output" end of the pipe, passing it as the "input" to each component that we
+connect.  Of course, nothing requires that you re-use a variable in this way,
+but we find that it makes adding or subtracting components from a pipe much
+easier.  For example, it's easy to comment-out the component we just added
+without affecting any downstream code:
+
+.. code-block:: python
+    :emphasize-lines: 4
+
+    pipe = serial.serial_for_url("/dev/cu.SLAB_USBtoUART", baudrate=128000)
+    pipe = pipecat.utility.readline(pipe)
+    pipe = pipecat.device.charger.icharger208b(pipe)
+    #pipe = pipecat.store.csv.write(pipe, "battery.csv")
+    for record in pipe:
+        pipecat.record.dump(record)
+
+Similarly, you can easily insert and reorder components without having to worry
+about renaming variables.  Here, we add a component to timestamp the battery
+charger records, and another component to automatically stop iteration after
+five seconds of inactivity:
+
+.. code-block:: python
+    :emphasize-lines: 4,5
+
+    pipe = serial.serial_for_url("/dev/cu.SLAB_USBtoUART", baudrate=128000)
+    pipe = pipecat.utility.readline(pipe)
+    pipe = pipecat.device.charger.icharger208b(pipe)
+    pipe = pipecat.utility.add_timestamp(pipe)
+    pipe = pipecat.limit.timeout(pipe, timeout=pipecat.quantity(5, pipecat.units.seconds))
+    pipe = pipecat.store.csv.write(pipe, "battery.csv")
+    for record in pipe:
+        pipecat.record.dump(record)
+
 
