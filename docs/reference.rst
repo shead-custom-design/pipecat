@@ -22,5 +22,6 @@ Contents:
    pipecat.record.rst
    pipecat.store.rst
    pipecat.store.csv.rst
+   pipecat.store.pickle.rst
    pipecat.udp.rst
    pipecat.utility.rst
