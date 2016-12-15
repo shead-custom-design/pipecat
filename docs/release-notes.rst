@@ -7,7 +7,7 @@
 Release Notes
 =============
 
-Pipecat 0.1.0 - Not released yet
---------------------------------
+Pipecat 0.1.0 - December 14th, 2016
+-----------------------------------
 
 * Initial Release
