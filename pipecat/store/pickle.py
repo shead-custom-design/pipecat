@@ -22,37 +22,21 @@ from __future__ import absolute_import, division, print_function
 
 import pickle
 
-import pipecat.compatibility
+import pipecat.store
 
 def write(source, fobj):
     """Append records to a pickle file."""
-    def implementation(source, fobj): # pylint: disable=missing-docstring
+    with pipecat.store._FileHelper(fobj, "a+b") as fobj:
         for record in source:
             pickle.dump(record, fobj)
-            yield record
-
-    if isinstance(fobj, pipecat.compatibility.string_type):
-        with open(fobj, "a+b") as fobj:
-            for record in implementation(source, fobj):
-                yield record
-    else:
-        for record in implementation(source, fobj):
             yield record
 
 
 def read(fobj):
     """Read records from a pickle file."""
-    def implementation(fobj): # pylint: disable=missing-docstring
+    with pipecat.store._FileHelper(fobj, "rb") as fobj:
         try:
             while True:
                 yield pickle.load(fobj)
         except EOFError:
             pass
-
-    if isinstance(fobj, pipecat.compatibility.string_type):
-        with open(fobj, "rb") as fobj:
-            for record in implementation(fobj):
-                yield record
-    else:
-        for record in implementation(fobj):
-            yield record

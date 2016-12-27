@@ -20,23 +20,15 @@
 
 from __future__ import absolute_import, division, print_function
 
-import pipecat.compatibility
+import pipecat.store
 
 def write(source, fobj):
     """Append records to a CSV file."""
-    def implementation(source, fobj): # pylint: disable=missing-docstring
+    with pipecat.store._FileHelper(fobj, "a+b") as fobj:
         for record in source:
             start_record = 1
             for key, value in sorted(record.items()):
                 fobj.write("%s,%s,%s\n" % (start_record, key, value))
                 start_record = 0
-            yield record
-
-    if isinstance(fobj, pipecat.compatibility.string_type):
-        with open(fobj, "a+b") as fobj:
-            for record in implementation(source, fobj):
-                yield record
-    else:
-        for record in implementation(source, fobj):
             yield record
 

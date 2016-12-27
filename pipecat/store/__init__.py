@@ -24,7 +24,7 @@ import collections
 
 import numpy
 
-import pipecat
+import pipecat.compatibility
 
 class Table(object):
     def __init__(self):
@@ -94,4 +94,22 @@ def cache(source):
     cache: instance of :class:`pipecat.store.Cache`.
     """
     return Cache(source)
+
+
+class _FileHelper(object):
+    def __init__(self, fobj, mode):
+        self._fobj = fobj
+        self._mode = mode
+        self._file = None
+
+    def __enter__(self):
+        if isinstance(self._fobj, pipecat.compatibility.string_type):
+            self._file = open(self._fobj, self._mode)
+            return self._file
+        else:
+            return self._fobj
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if isinstance(self._fobj, pipecat.compatibility.string_type):
+            self._file.close()
 
