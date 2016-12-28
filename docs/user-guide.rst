@@ -13,4 +13,4 @@ Contents:
    :maxdepth: 2
 
    design.rst
-   examples.rst
+   battery-chargers.rst

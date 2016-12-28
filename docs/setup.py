@@ -22,8 +22,12 @@ import re
 import shutil
 import subprocess
 
+import nbconvert.preprocessors
+import nbformat
+import traitlets.config
+
 parser = argparse.ArgumentParser()
-parser.add_argument("command", nargs="?", default="html", choices=["clean", "html"], help="Command to run.")
+parser.add_argument("command", nargs="?", default="html", choices=["clean", "convert", "html"], help="Command to run.")
 arguments = parser.parse_args()
 
 root_dir = os.path.abspath(os.path.join(__file__, "..", ".."))
@@ -31,70 +35,60 @@ docs_dir = os.path.join(root_dir, "docs")
 build_dir = os.path.join(docs_dir, "_build")
 test_dir = os.path.join(docs_dir, "_test")
 
-def convert_notebook(name):
+class SkipCells(nbconvert.preprocessors.Preprocessor):
+    def preprocess(self, nb, resources):
+        cells = []
+        for cell in nb.cells:
+            if cell["cell_type"] == "code" and "# nbconvert: remove-cell" in cell["source"]:
+                continue
+            cells.append(cell)
+        nb.cells = cells
+        return nb, resources
+
+def convert_notebook(name, force):
+    print "Converting %s" % name
+
     # If the Sphinx source is up-to-date, we're done.
     source = os.path.join(docs_dir, "%s.ipynb" % name)
     target = os.path.join(docs_dir, "%s.rst" % name)
-    if os.path.exists(target) and os.path.getmtime(
-            target) >= os.path.getmtime(source):
+    if os.path.exists(target) and os.path.getmtime(target) >= os.path.getmtime(source) and not force:
         return
-
-    # Convert the notebook to pure Python, so we can run verify
-    # that it runs without any errors.
-
-    if not os.path.exists(test_dir):
-        os.mkdir(test_dir)
-
-    subprocess.check_call(["jupyter",
-                           "nbconvert",
-                           "--execute",
-                           "--to",
-                           "python",
-                           source,
-                           "--output",
-                           os.path.join(test_dir, name),
-                           ])
-
-    subprocess.check_call(["python", os.path.join(test_dir, "%s.py" % name)])
 
     # Convert the notebook into restructured text suitable for the
     # documentation.
+    with open(source) as f:
+        notebook = nbformat.read(f, as_version=4)
+        # Execute the notebook to update its contents and ensure it runs
+        # without error.
+        execute = nbconvert.preprocessors.ExecutePreprocessor()
+        execute.preprocess(notebook, {"metadata": {"path": "."}})
+        # Setup the RST exporter.
+        config = traitlets.config.Config()
+        config.RSTExporter.preprocessors = [SkipCells]
+        rst_exporter = nbconvert.RSTExporter(config=config)
+        (body, resources) = rst_exporter.from_notebook_node(notebook)
+        # Unmangle Sphinx cross-references in the tutorial that get mangled by
+        # markdown.
+        body = re.sub(":([^:]+):``([^`]+)``", ":\\1:`\\2`", body)
+        body = re.sub("[.][.].*\\\\(_[^:]+):", ".. \\1:", body)
 
-    env = dict()
-    env.update(os.environ)
-
-    subprocess.check_call(["jupyter",
-                           "nbconvert",
-                           "--execute",
-                           "--to",
-                           "rst",
-                           source,
-                           "--output",
-                           name,
-                           ], env=env)
-
-    # Unmangle Sphinx cross-references in the tutorial that get mangled by
-    # markdown.
-    with open(target, "r") as file:
-        content = file.read()
-        content = re.sub(":([^:]+):``([^`]+)``", ":\\1:`\\2`", content)
-        content = re.sub("[.][.].*\\\\(_[^:]+):", ".. \\1:", content)
-
-        content = """
-  .. image:: ../artwork/pipecat.png
+        body = """
+.. image:: ../artwork/pipecat.png
     :width: 200px
     :align: right
-  """ + content
+""" + body
 
-    with open(target, "w") as file:
-        file.write(content)
+        with open(target, "wb") as file:
+            file.write(body)
+
 
 # Always build the documentation from scratch.
 if os.path.exists(build_dir):
     shutil.rmtree(build_dir)
 
 notebooks = [
-        ]
+    "battery-chargers",
+    ]
 
 # Clean the build.
 if arguments.command == "clean":
@@ -102,9 +96,14 @@ if arguments.command == "clean":
         if os.path.exists("%s.rst" % name):
             os.remove("%s.rst" % name)
 
+# Convert notebooks.
+if arguments.command == "convert":
+    for name in notebooks:
+        convert_notebook(name, force=True)
+
 # Generate the HTML documentation.
 if arguments.command in ["html"]:
     for name in notebooks:
-        convert_notebook(name)
+        convert_notebook(name, force=False)
     subprocess.check_call(["make", arguments.command], cwd=docs_dir)
 
