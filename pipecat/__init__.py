@@ -24,7 +24,7 @@ import logging
 
 import pint
 
-__version__ = "0.2.0-dev"
+__version__ = "0.2.0"
 
 log = logging.getLogger(__name__)
 """:class:`logging.Logger`: All pipecat logging output uses this logger.
