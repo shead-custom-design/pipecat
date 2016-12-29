@@ -39,7 +39,7 @@ class SkipCells(nbconvert.preprocessors.Preprocessor):
     def preprocess(self, nb, resources):
         cells = []
         for cell in nb.cells:
-            if cell["cell_type"] == "code" and "# nbconvert: remove-cell" in cell["source"]:
+            if cell["cell_type"] == "code" and cell["source"].startswith("# nbconvert: hide"):
                 continue
             cells.append(cell)
         nb.cells = cells
