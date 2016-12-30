@@ -17,6 +17,7 @@ Contents:
    pipecat.device.charger.rst
    pipecat.device.clock.rst
    pipecat.device.gps.rst
+   pipecat.device.motion.rst
    pipecat.limit.rst
    pipecat.queue.rst
    pipecat.record.rst
