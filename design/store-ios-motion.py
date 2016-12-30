@@ -15,10 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Pipecat.  If not, see <http://www.gnu.org/licenses/>.
 
-import pipecat.udp
+import pipecat.device.motion
+import pipecat.store.pickle
 
-with open("../data/gps", "wb") as stream:
-    pipe = pipecat.udp.receive(("0.0.0.0", 7777), 1024)
-    for record in pipe:
-        stream.write(record["string"])
-        print record
+pipe = pipecat.device.motion.ios()
+pipe = pipecat.store.pickle.write(pipe, "../data/ios-motion.pickle")
+for record in pipe:
+    print record
+
