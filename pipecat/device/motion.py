@@ -61,7 +61,7 @@ def ios(rate=quantity(1, units.second)):
             add_field(record, ("acceleration", "z"), acceleration[2])
 
             add_field(record, ("attitude", "roll"), attitude[0])
-            add_field(record, ("attitude", "pitch"), attitude[1])  
+            add_field(record, ("attitude", "pitch"), attitude[1])
             add_field(record, ("attitude", "yaw"), attitude[2])
 
             yield record
