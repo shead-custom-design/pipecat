@@ -55,4 +55,5 @@ def dump(record, fobj=sys.stdout):
             key = "/".join(key)
         fobj.write("%s: %s\n" % (key, value))
     fobj.write("\n")
+    fobj.flush()
 
