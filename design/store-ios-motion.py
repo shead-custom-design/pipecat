@@ -16,10 +16,11 @@
 # along with Pipecat.  If not, see <http://www.gnu.org/licenses/>.
 
 import pipecat.device.motion
+import pipecat.record
 import pipecat.store.pickle
 
 pipe = pipecat.device.motion.ios()
 pipe = pipecat.store.pickle.write(pipe, "../data/ios-motion.pickle")
 for record in pipe:
-    print record
+    pipecat.record.dump(record)
 
