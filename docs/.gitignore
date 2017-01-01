@@ -3,4 +3,4 @@ _static
 _templates
 _test
 *_files
-test.*
+charger.pickle

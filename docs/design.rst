@@ -27,31 +27,35 @@ you can manipulate that data easily.
 Record Keys
 -----------
 
-For interoperability, Pipecat assumes that record keys are strings.  Using
-string keys makes records easy to understand, manipulate, and serialize, while
-allowing great flexibility in the choice of keys for implementations.  Pipecat
-intentionally does not impose any naming scheme on record keys, although we
-plan to evolve consistent sets of well-defined keys for specific device classes
-as we go.  Our desire is to encourage developers of new Pipecat components to
-think broadly about the type of data they store in records.  The one exception
-to this permissive approach is that Pipecat requires the use of
-tuples-of-strings to represent hierarchical keys.  For example, a battery
-charger with multiple temperature sensors should use `("temperature", "internal")`
-instead of `"temperature-internal"`, `"temperature/internal"`,
-`"temperature|internal"`, or some other device-specific naming scheme.
-Representing hierarchies in this way makes them explicit and avoids imposed or
-inconsistent naming.
+For interoperability, Pipecat requires (with one exception) that record keys be
+strings.  Using strings as keys makes records easy to understand, manipulate,
+and serialize, while allowing great flexibility in the choice of keys for
+devices.  Pipecat intentionally does not impose any naming scheme on record
+keys, although we plan to evolve consistent sets of well-defined keys for
+specific device classes as we go.  Our desire is to encourage developers of new
+Pipecat components to think broadly about the type of data they store in
+records.  The one exception to the permissive "strings-as-keys" approach is
+that Pipecat encourages developers to use "hierarchical" keys where
+appropriate, and requires that hierarchical keys be represented using
+tuples-of-strings.  For example, a battery charger with both internal and
+external temperature sensors should use `("temperature", "internal")` as a key
+instead of some other private naming scheme such as `"temperature-internal"`,
+`"temperature/internal"`, `"temperature|internal"`, etc.  Representing
+hierarchies in this way makes them explicit, avoids a proliferation of private
+naming schemes for hierarchical data, and allows downstream components to
+manipulate hierarchical keys in a consistent way.
 
 .. _record-values:
 
 Record Values
 -------------
 
-Any type can be used as a value in a Pipecat record, and the goal again is to avoid
-needlessly constraining the creation of new Pipecat components.  There are just two caveats:
+Any type can be used as a value in a Pipecat record, and the goal again is to
+avoid needlessly constraining the ingenuity of Pipecat developers.  There
+are just two caveats:
 
-* We strongly encourage the use of `arrow <http://arrow.readthedocs.io>`_ objects to store timestamp data.
-* We strongly encourage the use of explicit physical units wherever possible.  Pipecat provides builtin quantity and unit support from `pint <http://pint.readthedocs.io>`_ to make this easy.
+* We strongly encourage the use of `Arrow <http://arrow.readthedocs.io>`_ objects to store timestamp data.  Arrow is already a required dependency of Pipecat, so it's guaranteed to be available.
+* We strongly encourage the use of explicit physical units wherever possible.  Pipecat provides builtin quantity and unit support from `Pint <http://pint.readthedocs.io>`_ to make this easy.  Again, Pint is a required Pipecat dependency, so it's guaranteed available for Pipecat developers.
 
 .. _record-generators:
 
@@ -60,7 +64,7 @@ Record Generators
 
 Record generators are any iterable expression (function or object) that
 produces records.  An iterable expression is any expression that can be used as
-the target of the Python `for` statement, and you use `for` loops to read
+with the Python `for` statement, and you use `for` loops to read
 records from generators::
 
     generator = pipecat.device.clock.metronome()
@@ -94,7 +98,9 @@ records.  Most of the components provided by Pipecat fall into this category.
 Examples include:
 
 * :func:`pipecat.utility.add_timestamp`, which adds a timestamp field to the records it receives.
+* :func:`pipecat.device.charger.icharger208b`, which takes records containing strings and converts them into records containing battery charging information.
 * :func:`pipecat.device.gps.nmea`, which takes records containing strings and converts them into records containing navigational information.
+* :func:`pipecat.limit.duration`, which passes records without modification until a fixed time interval has expired.
 
 Pipes
 -----
@@ -128,9 +134,10 @@ to the pipe:
 Note from this example how we use a single variable to keep track of the
 "output" end of the pipe, passing it as the "input" to each component that we
 connect.  Of course, nothing requires that you re-use a variable in this way,
-but we find that it makes adding or subtracting components from a pipe much
-easier.  For example, it's easy to comment-out the component we just added
-without affecting any downstream code:
+but we find that this style avoids a proliferation of otherwise unused symbols
+and makes reordering, adding and subtracting components in a pipe much easier.
+For example, it's easy to comment-out the component we just added without
+affecting any downstream code:
 
 .. code-block:: python
     :emphasize-lines: 4
@@ -158,5 +165,4 @@ five seconds of inactivity:
     pipe = pipecat.store.csv.write(pipe, "battery.csv")
     for record in pipe:
         pipecat.record.dump(record)
-
 
