@@ -17,13 +17,13 @@
 
 import obd
 
-import pipecat.automotive
+import pipecat.device.automotive
 import pipecat.record
 import pipecat.store.pickle
 
 pipe = obd.OBD("/dev/cu.SLAB_USBtoUART")
-pipe = pipecat.automotive.obd(pipe)
-pipe = pipecat.store.pickle.write("../data/obd.pickle")
+pipe = pipecat.device.automotive.obd(pipe)
+pipe = pipecat.store.pickle.write(pipe, "../data/obd.pickle")
 for record in pipe:
     pipecat.record.dump(record)
 

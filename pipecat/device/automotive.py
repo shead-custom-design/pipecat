@@ -19,6 +19,7 @@
 
 from __future__ import absolute_import, division, print_function
 
+import sys
 import time
 
 import obd as obdii
@@ -26,7 +27,7 @@ import obd as obdii
 from pipecat import quantity, units
 from pipecat.record import add_field
 
-def obd(connection, rate=quantity(5, units.second)):
+def obd(connection, commands=None, rate=quantity(5, units.second)):
     """Retrieve OBD-II data from an automobile.
 
     This component requires the `Python-OBD` module (http://python-obd.readthedocs.io).
@@ -48,15 +49,29 @@ def obd(connection, rate=quantity(5, units.second)):
         raise ValueError("A valid obd.OBD connection is required.")
 
     # Get the set of available commands.
-    commands = [command for key, command in obdii.commands.__dict__.items() if connection.supports(key)]
+    if commands is None:
+        commands = []
+        for command in connection.supported_commands:
+            try:
+                if command.mode not in [1]:
+                    continue
+                if command.pid in [0x00, 0x20, 0x40]:
+                    continue
+                commands.append(command)
+      	    except:
+                pass
 
     rate = rate.to(units.seconds).magnitude
 
     while True:
         record = dict()
         for command in commands:
-            response = connection.query(command)
-            add_field(record, command.name, response.value)
+            sys.stdout.flush()
+            try:
+                response = connection.query(command)
+                add_field(record, command.name, response.value)
+            except:
+                pass
 
         yield record
 
