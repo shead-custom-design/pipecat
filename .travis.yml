@@ -14,7 +14,7 @@ install:
     - conda info -a
     - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION mock numpy=1.8.2 pip pylint
     - source activate test-environment
-    - pip install arrow behave coverage coveralls nose-exclude Pint
+    - pip install arrow behave coverage coveralls nose-exclude obd Pint
 script:
     - coverage run --source pipecat -m behave
     - coverage report
