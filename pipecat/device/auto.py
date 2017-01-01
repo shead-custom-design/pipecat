@@ -58,7 +58,7 @@ def obd(connection, commands=None, rate=quantity(5, units.second)):
                 if command.pid in [0x00, 0x20, 0x40]:
                     continue
                 commands.append(command)
-      	    except:
+            except: # pylint: disable=bare-except
                 pass
 
     rate = rate.to(units.seconds).magnitude
@@ -77,7 +77,7 @@ def obd(connection, commands=None, rate=quantity(5, units.second)):
                     add_field(record, (name, "ignition-type"), response.value.ignition_type)
                 else:
                     add_field(record, name, response.value)
-            except:
+            except: # pylint: disable=bare-except
                 pass
 
         yield record
