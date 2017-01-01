@@ -69,7 +69,14 @@ def obd(connection, commands=None, rate=quantity(5, units.second)):
             sys.stdout.flush()
             try:
                 response = connection.query(command)
-                add_field(record, command.name, response.value)
+                name = command.name.lower().replace("_", "-")
+
+                if isinstance(response.value, obd.OBDResponse.Status):
+                    add_field(record, (name, "mil"), response.value.MIL)
+                    add_field(record, (name, "dtc"), pipecat.quantity(response.value.DTC_count, pipecat.units.count))
+                    add_field(record, (name, "ignition-type"), response.value.ignition_type)
+                else:
+                    add_field(record, name, response.value)
             except:
                 pass
 
