@@ -22,6 +22,8 @@ from __future__ import absolute_import, division, print_function
 
 import pickle
 
+import pint
+
 import pipecat.store
 
 def write(source, fobj):
@@ -35,6 +37,7 @@ def write(source, fobj):
 def read(fobj):
     """Read records from a pickle file."""
     with pipecat.store._FileHelper(fobj, "rb") as fobj:
+        pint.set_application_registry(pipecat.units)
         try:
             while True:
                 yield pickle.load(fobj)
