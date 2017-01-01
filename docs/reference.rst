@@ -14,6 +14,7 @@ Contents:
    pipecat.compatibility.rst
    pipecat.connect.rst
    pipecat.device.rst
+   pipecat.device.automotive.rst
    pipecat.device.charger.rst
    pipecat.device.clock.rst
    pipecat.device.gps.rst

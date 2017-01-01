@@ -64,6 +64,7 @@ nitpick_ignore = [
 intersphinx_mapping = {
     "arrow": ("http://arrow.readthedocs.io/en/latest", None),
     "numpy": ("http://docs.scipy.org/doc/numpy-1.10.1", None),
+    "obd": ("http://python-obd.readthedocs.io/en/latest", None),
     "pint": ("http://pint.readthedocs.io/en/latest", None),
     "python": ("http://docs.python.org/3.5", None),
     }
