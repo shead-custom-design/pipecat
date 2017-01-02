@@ -20,6 +20,7 @@
 from __future__ import absolute_import, division, print_function
 
 import itertools
+import pickle
 import sys
 import time
 
@@ -27,15 +28,26 @@ import mock
 
 import pipecat
 
-def mock_serial_port():
+def mock_obd():
+    sys.modules["obd"] = mock.Mock()
+    return sys.modules["obd"]
+
+def mock_serial():
     sys.modules["serial"] = mock.Mock()
     return sys.modules["serial"]
 
-def read_file(mocked, path, rate=pipecat.quantity(0, pipecat.units.seconds), start=None, stop=None, step=None):
-    rate = rate.to(pipecat.units.seconds).magnitude
+def read_file(mocked, path, rate=None, start=None, stop=None, step=None, block=False):
+    if rate is not None:
+        rate = rate.to(pipecat.units.seconds).magnitude
+
     def implementation(*args, **kwargs): # pylint: disable=unused-argument
         for line in itertools.islice(open(path, "r"), start, stop, step):
             yield line
-            time.sleep(rate)
+            if rate is not None:
+                time.sleep(rate)
+        if block:
+            while True:
+                time.sleep(1)
+
     mocked.side_effect = implementation
 
