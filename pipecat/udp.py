@@ -29,11 +29,11 @@ def receive(address, maxsize):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.bind(address)
     while True:
-        string, address = s.recvfrom(maxsize)
+        string, client = s.recvfrom(maxsize)
 
         record = {}
         pipecat.record.add_field(record, "string", string)
-        pipecat.record.add_field(record, "address", address)
+        pipecat.record.add_field(record, "client", client)
 
         yield record
 
