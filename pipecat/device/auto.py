@@ -24,7 +24,6 @@ import time
 
 import obd as obdii
 
-import pipecat
 from pipecat import quantity, units
 from pipecat.record import add_field
 
@@ -72,7 +71,7 @@ def obd(connection, commands=None, rate=quantity(5, units.second)):
                 response = connection.query(command)
                 name = command.name.lower().replace("_", "-")
                 add_field(record, name, response.value)
-            except Exception as e:
+            except: # pylint: disable=bare-except
                 pass
 
         yield record
