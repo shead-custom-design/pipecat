@@ -14,3 +14,4 @@ Contents:
 
    design.rst
    battery-chargers.rst
+   gps-receivers.rst

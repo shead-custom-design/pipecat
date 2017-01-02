@@ -35,6 +35,10 @@ def mock_serial():
     sys.modules["serial"] = mock.Mock()
     return sys.modules["serial"]
 
+def mock_socket():
+    sys.modules["socket"] = mock.Mock()
+    return sys.modules["socket"]
+
 def read_file(mocked, path, rate=None, start=None, stop=None, step=None, block=False):
     if rate is not None:
         rate = rate.to(pipecat.units.seconds).magnitude
@@ -49,4 +53,26 @@ def read_file(mocked, path, rate=None, start=None, stop=None, step=None, block=F
                 time.sleep(1)
 
     mocked.side_effect = implementation
+
+class recvfrom_file(object):
+    def __init__(self, path, client, rate=None, start=None, stop=None, step=None, block=False):
+        if rate is not None:
+            rate = rate.to(pipecat.units.seconds).magnitude
+
+        self._stream = itertools.islice(open(path, "r"), start, stop, step)
+        self._client = client
+        self._rate = rate
+        self._block = block
+
+    def __call__(self, maxsize): # pylint: disable=unused-argument
+        try:
+#            if rate is not None:
+#                time.sleep(rate)
+            return next(self._stream), self._client
+        except StopIteration as e:
+            if self._block:
+                while True:
+                    time.sleep(1)
+            else:
+                raise e
 

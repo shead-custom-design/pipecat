@@ -41,6 +41,9 @@ class SkipCells(nbconvert.preprocessors.Preprocessor):
         for cell in nb.cells:
             if cell["cell_type"] == "code" and cell["source"].startswith("# nbconvert: hide"):
                 continue
+            if cell["cell_type"] == "code" and cell["source"].startswith("# nbconvert: stop"):
+                print "foo"
+                break
             cells.append(cell)
         nb.cells = cells
         return nb, resources
@@ -88,6 +91,7 @@ if os.path.exists(build_dir):
 
 notebooks = [
     "battery-chargers",
+    "gps-receivers",
     ]
 
 # Clean the build.
