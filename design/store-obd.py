@@ -15,11 +15,15 @@
 # You should have received a copy of the GNU General Public License
 # along with Pipecat.  If not, see <http://www.gnu.org/licenses/>.
 
+import logging
+
 import obd
 
 import pipecat.device.auto
 import pipecat.record
 import pipecat.store.pickle
+
+logging.basicConfig(level=logging.DEBUG)
 
 pipe = obd.OBD("/dev/cu.SLAB_USBtoUART")
 pipe = pipecat.device.auto.obd(pipe)

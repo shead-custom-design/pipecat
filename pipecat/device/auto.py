@@ -24,6 +24,7 @@ import time
 
 import obd as obdii
 
+import pipecat
 from pipecat import quantity, units
 from pipecat.record import add_field
 
@@ -55,7 +56,7 @@ def obd(connection, commands=None, rate=quantity(5, units.second)):
             try:
                 if command.mode not in [1]:
                     continue
-                if command.pid in [0x00, 0x20, 0x40]:
+                if command.pid in [0x00, 0x01, 0x02, 0x20, 0x40, 0x41]:
                     continue
                 commands.append(command)
             except: # pylint: disable=bare-except
@@ -70,14 +71,8 @@ def obd(connection, commands=None, rate=quantity(5, units.second)):
             try:
                 response = connection.query(command)
                 name = command.name.lower().replace("_", "-")
-
-                if isinstance(response.value, obd.OBDResponse.Status):
-                    add_field(record, (name, "mil"), response.value.MIL)
-                    add_field(record, (name, "dtc"), pipecat.quantity(response.value.DTC_count, pipecat.units.count))
-                    add_field(record, (name, "ignition-type"), response.value.ignition_type)
-                else:
-                    add_field(record, name, response.value)
-            except: # pylint: disable=bare-except
+                add_field(record, name, response.value)
+            except Exception as e:
                 pass
 
         yield record
