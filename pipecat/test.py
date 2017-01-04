@@ -27,19 +27,13 @@ import mock
 
 import pipecat
 
-def mock_obd():
-    sys.modules["obd"] = mock.Mock()
-    return sys.modules["obd"]
 
-def mock_serial():
-    sys.modules["serial"] = mock.Mock()
-    return sys.modules["serial"]
+def mock_module(module):
+    sys.modules[module] = mock.Mock()
+    return sys.modules[module]
 
-def mock_socket():
-    sys.modules["socket"] = mock.Mock()
-    return sys.modules["socket"]
 
-def read_file(mocked, path, rate=None, start=None, stop=None, step=None, block=False):
+def read_file(path, rate=None, start=None, stop=None, step=None, block=False):
     if rate is not None:
         rate = rate.to(pipecat.units.seconds).magnitude
 
@@ -52,10 +46,11 @@ def read_file(mocked, path, rate=None, start=None, stop=None, step=None, block=F
             while True:
                 time.sleep(1)
 
-    mocked.side_effect = implementation
+    return implementation
 
-class recvfrom_file(object):
-    def __init__(self, path, client, rate=None, start=None, stop=None, step=None, block=False):
+
+class ReceiveFromFile(object):
+    def __init__(self, path, client, rate, start, stop, step, block):
         if rate is not None:
             rate = rate.to(pipecat.units.seconds).magnitude
 
@@ -75,4 +70,7 @@ class recvfrom_file(object):
                     time.sleep(1)
             else:
                 raise e
+
+def recvfrom_file(path, client, rate=None, start=None, stop=None, step=None, block=False):
+    return ReceiveFromFile(path=path, client=client, rate=rate, start=start, stop=stop, step=step, block=block)
 

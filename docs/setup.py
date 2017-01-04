@@ -42,7 +42,6 @@ class SkipCells(nbconvert.preprocessors.Preprocessor):
             if cell["cell_type"] == "code" and cell["source"].startswith("# nbconvert: hide"):
                 continue
             if cell["cell_type"] == "code" and cell["source"].startswith("# nbconvert: stop"):
-                print "foo"
                 break
             cells.append(cell)
         nb.cells = cells
