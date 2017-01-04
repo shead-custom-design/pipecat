@@ -19,6 +19,7 @@ Contents:
    pipecat.device.clock.rst
    pipecat.device.gps.rst
    pipecat.device.motion.rst
+   pipecat.filter.rst
    pipecat.limit.rst
    pipecat.queue.rst
    pipecat.record.rst
