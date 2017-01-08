@@ -91,7 +91,7 @@ def duration(source, duration, timeout=pipecat.quantity(0.1, pipecat.units.secon
 
     queue = pipecat.queue.Queue()
     shutdown = threading.Event()
-    thread = threading.Thread(target=pipecat.queue.send, args=(source, queue, shutdown))
+    thread = threading.Thread(name="pipecat.limit.duration", target=pipecat.queue.send, args=(source, queue, shutdown))
     thread.start()
 
     try:
@@ -106,6 +106,9 @@ def duration(source, duration, timeout=pipecat.quantity(0.1, pipecat.units.secon
                     break
             except pipecat.queue.Empty:
                 continue
+            except KeyboardInterrupt:
+                shutdown.set()
+                break
 
             yield record
 
@@ -136,7 +139,7 @@ def timeout(source, timeout, initial=pipecat.quantity(1, pipecat.units.hours), n
 
     queue = pipecat.queue.Queue()
     shutdown = threading.Event()
-    thread = threading.Thread(target=pipecat.queue.send, args=(source, queue, shutdown))
+    thread = threading.Thread(name="pipecat.limit.timeout", target=pipecat.queue.send, args=(source, queue, shutdown))
     thread.start()
 
     try:
@@ -148,6 +151,9 @@ def timeout(source, timeout, initial=pipecat.quantity(1, pipecat.units.hours), n
                 current_timeout = regular_timeout
             except pipecat.queue.Empty:
                 pipecat.log.debug("%s iteration stopped by %s timeout.", name, timeout)
+                shutdown.set()
+                break
+            except KeyboardInterrupt:
                 shutdown.set()
                 break
             yield record
