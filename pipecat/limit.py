@@ -105,7 +105,10 @@ def duration(source, duration, timeout=pipecat.quantity(0.1, pipecat.units.secon
             continue
         if record is StopIteration:
             break
-        yield record
+        try:
+            yield record
+        except GeneratorExit:
+            shutdown.set()
 
 
 def timeout(source, timeout, initial=pipecat.quantity(1, pipecat.units.hours), name=None): # pylint: disable=redefined-outer-name
@@ -144,7 +147,11 @@ def timeout(source, timeout, initial=pipecat.quantity(1, pipecat.units.hours), n
             break
         if record is StopIteration:
             break
-        yield record
+        try:
+            yield record
+        except GeneratorExit:
+            shutdown.set()
+
 
 def until(source, key, value, name=None):
     """Return records from another source until a record occurs with a specific key and value.
