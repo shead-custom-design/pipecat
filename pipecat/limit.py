@@ -94,21 +94,23 @@ def duration(source, duration, timeout=pipecat.quantity(0.1, pipecat.units.secon
     thread = threading.Thread(target=pipecat.queue.send, args=(source, queue, shutdown))
     thread.start()
 
-    while True:
-        if time.time() >= end_time:
-            pipecat.log.debug("%s iteration stopped after %s time limit.", name, duration)
-            shutdown.set()
-            break
-        try:
-            record = queue.get(block=True, timeout=queue_timeout)
-        except pipecat.queue.Empty:
-            continue
-        if record is StopIteration:
-            break
-        try:
+    try:
+        while True:
+            if time.time() >= end_time:
+                pipecat.log.debug("%s iteration stopped after %s time limit.", name, duration)
+                shutdown.set()
+                break
+            try:
+                record = queue.get(block=True, timeout=queue_timeout)
+                if record is StopIteration:
+                    break
+            except pipecat.queue.Empty:
+                continue
+
             yield record
-        except GeneratorExit:
-            shutdown.set()
+
+    except GeneratorExit:
+        shutdown.set()
 
 
 def timeout(source, timeout, initial=pipecat.quantity(1, pipecat.units.hours), name=None): # pylint: disable=redefined-outer-name
@@ -137,21 +139,21 @@ def timeout(source, timeout, initial=pipecat.quantity(1, pipecat.units.hours), n
     thread = threading.Thread(target=pipecat.queue.send, args=(source, queue, shutdown))
     thread.start()
 
-    while True:
-        try:
-            record = queue.get(block=True, timeout=current_timeout)
-            current_timeout = regular_timeout
-        except pipecat.queue.Empty:
-            pipecat.log.debug("%s iteration stopped by %s timeout.", name, timeout)
-            shutdown.set()
-            break
-        if record is StopIteration:
-            break
-        try:
+    try:
+        while True:
+            try:
+                record = queue.get(block=True, timeout=current_timeout)
+                if record is StopIteration:
+                    break
+                current_timeout = regular_timeout
+            except pipecat.queue.Empty:
+                pipecat.log.debug("%s iteration stopped by %s timeout.", name, timeout)
+                shutdown.set()
+                break
             yield record
-        except GeneratorExit:
-            shutdown.set()
 
+    except GeneratorExit:
+        shutdown.set()
 
 def until(source, key, value, name=None):
     """Return records from another source until a record occurs with a specific key and value.
