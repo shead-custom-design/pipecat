@@ -46,6 +46,7 @@ setup(
     maintainer_email="tim@shead-custom-design.gov",
     packages=find_packages(),
     scripts=[
+        "bin/charging-status",
         ],
     url="http://pipecat.readthedocs.org",
     version=re.search(
