@@ -66,6 +66,7 @@ intersphinx_mapping = {
     "numpy": ("http://docs.scipy.org/doc/numpy-1.10.1", None),
     "pint": ("http://pint.readthedocs.io/en/latest", None),
     "python": ("http://docs.python.org/3.5", None),
+    "serial": ("http://pyserial.readthedocs.io/en/latest", None),
     }
 
 

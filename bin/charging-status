@@ -10,9 +10,10 @@ import os
 import sys
 
 import requests
-import serial
+#import serial
 
 import pipecat.device.charger
+import pipecat.device.serial
 import pipecat.limit
 import pipecat.store
 import pipecat.utility
@@ -45,7 +46,8 @@ parser.add_argument("--pushover-user", help="Use pushover.net for notifications.
 parser.add_argument("--version", action="version", version="%(prog)s " + pipecat.__version__)
 arguments = parser.parse_args(remaining_argv)
 
-pipe = pipecat.utility.readline(serial.serial_for_url(arguments.port, baudrate=128000))
+#pipe = pipecat.utility.readline(serial.serial_for_url(arguments.port, baudrate=128000))
+pipe = pipecat.device.serial.readline(arguments.port, baudrate=128000)
 pipe = pipecat.device.charger.icharger208b(pipe)
 pipe = pipecat.utility.add_timestamp(pipe)
 pipe = pipecat.limit.timeout(pipe, timeout=pipecat.quantity(10, pipecat.units.seconds))
