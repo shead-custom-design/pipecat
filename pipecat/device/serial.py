@@ -29,13 +29,20 @@ import pipecat.utility
 def readline(*args, **kwargs):
     """Reliably read lines from a serial port.
 
-    Accepts the same parameters as :func:`serial.serial_for_url`
+    Accepts the same parameters as :func:`serial.serial_for_url`, plus the following:
+
+    Parameters
+    ----------
+    poll: time quantity, optional
+        Time to wait between failures.
 
     Yields
     ------
     records: dict
         Records will contain each line of text read from the port.
     """
+    poll = kwargs.pop("poll", pipecat.quantity(5, pipecat.units.seconds)).to(pipecat.units.seconds).magnitude
+
     while True:
         try:
             pipe = pipecat.utility.readline(serial.serial_for_url(*args, **kwargs))
@@ -43,5 +50,5 @@ def readline(*args, **kwargs):
                 yield record
         except Exception as e:
             pipecat.log.error(e)
-            time.sleep(0.1)
+            time.sleep(poll)
 
