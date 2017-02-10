@@ -65,15 +65,16 @@ for record in pipe:
         charge,
         ))
 
-last_voltage = pipe.table[("battery", "voltage")].to(pipecat.units.volt).magnitude[-1]
-last_charge = pipe.table[("battery", "charge")].to(pipecat.units.milliamp * pipecat.units.hour).magnitude[-1]
+if len(pipe.table):
+    last_voltage = pipe.table[("battery", "voltage")].to(pipecat.units.volt).magnitude[-1]
+    last_charge = pipe.table[("battery", "charge")].to(pipecat.units.milliamp * pipecat.units.hour).magnitude[-1]
 
-if arguments.pushover_token is not None and arguments.pushover_user is not None:
-    parameters = {
-        "token": arguments.pushover_token,
-        "user": arguments.pushover_user,
-        "title": "Charger Finished",
-        "message": "Battery voltage: %s V\nTotal charge: %s mAH" % (last_voltage, last_charge),
-    }
-    requests.post("https://api.pushover.net/1/messages.json", params=parameters)
+    if arguments.pushover_token is not None and arguments.pushover_user is not None:
+        parameters = {
+            "token": arguments.pushover_token,
+            "user": arguments.pushover_user,
+            "title": "Charger Finished",
+            "message": "Battery voltage: %s V\nTotal charge: %s mAH" % (last_voltage, last_charge),
+        }
+        requests.post("https://api.pushover.net/1/messages.json", params=parameters)
 
