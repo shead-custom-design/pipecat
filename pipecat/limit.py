@@ -92,6 +92,7 @@ def duration(source, duration, timeout=pipecat.quantity(0.1, pipecat.units.secon
     queue = pipecat.queue.Queue()
     shutdown = threading.Event()
     thread = threading.Thread(name="pipecat.limit.duration", target=pipecat.queue.send, args=(source, queue, shutdown))
+    thread.daemon = True
     thread.start()
 
     try:
@@ -140,6 +141,7 @@ def timeout(source, timeout, initial=pipecat.quantity(1, pipecat.units.hours), n
     queue = pipecat.queue.Queue()
     shutdown = threading.Event()
     thread = threading.Thread(name="pipecat.limit.timeout", target=pipecat.queue.send, args=(source, queue, shutdown))
+    thread.daemon = True
     thread.start()
 
     try:

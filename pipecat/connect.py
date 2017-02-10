@@ -62,6 +62,7 @@ def multiplex(sources):
     consumers = []
     for source in sources:
         thread = threading.Thread(name="pipecat.connect.multiplex", target=pipecat.queue.send, args=(source, queue))
+        thread.daemon = True
         thread.start()
         consumers.append(pipecat.queue.receive(queue))
     return concatenate(consumers)
