@@ -55,11 +55,13 @@ pipe = pipecat.limit.until(pipe, ("charger", "mode"), "finished")
 pipe = pipecat.store.cache(pipe)
 
 for record in pipe:
+    mode = record[("charger", "mode")]
     voltage = record[("battery", "voltage")]
     current = record[("battery", "current")]
     charge = record[("battery", "charge")]
 
-    sys.stdout.write("{:.4~} {:~} {:~}\n".format(
+    sys.stdout.write("{} {:.4~} {:~} {:~}\n".format(
+        mode,
         voltage,
         current,
         charge,
