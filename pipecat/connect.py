@@ -66,5 +66,3 @@ def multiplex(sources):
         thread.start()
         consumers.append(pipecat.queue.receive(queue))
     return concatenate(consumers)
-
-

@@ -50,5 +50,3 @@ Examples
 >>> charge = pipecat.quantity(330, pipecat.units.milliamps * pipecat.units.hours)
 >>> latitude = pipecat.quantity(35.1 pipecat.units.degrees)
 """
-
-

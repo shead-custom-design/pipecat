@@ -1,4 +1,4 @@
-# Copyright 2017 Timothy M. Shead
+# Copyright 2016 Timothy M. Shead
 #
 # This file is part of Pipecat.
 #
@@ -41,4 +41,3 @@ def parse(source, key="string"):
         output = {}
         pipecat.record.add_field(output, "xml", xml.fromstring(record[key]))
         yield output
-

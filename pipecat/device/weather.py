@@ -1,4 +1,4 @@
-# Copyright 2017 Timothy M. Shead
+# Copyright 2016 Timothy M. Shead
 #
 # This file is part of Pipecat.
 #
@@ -58,4 +58,3 @@ def metars(source, key="xml"):
         add_field(output, "flight-category", metar.find("flight_category").text)
         add_field(output, "elevation", quantity(metar.find("elevation_m").text, units.meters))
         yield output
-

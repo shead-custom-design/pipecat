@@ -31,4 +31,3 @@ def write(source, fobj):
                 fobj.write("%s,%s,%s\n" % (start_record, key, value))
                 start_record = 0
             yield record
-

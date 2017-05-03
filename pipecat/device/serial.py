@@ -51,4 +51,3 @@ def readline(*args, **kwargs):
         except Exception as e:
             pipecat.log.error(e)
             time.sleep(poll)
-

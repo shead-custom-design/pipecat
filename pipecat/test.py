@@ -37,7 +37,7 @@ def read_file(path, rate=None, start=None, stop=None, step=None, block=False):
     if rate is not None:
         rate = rate.to(pipecat.units.seconds).magnitude
 
-    def implementation(*args, **kwargs): # pylint: disable=unused-argument
+    def implementation(*args, **kwargs):
         for line in itertools.islice(open(path, "r"), start, stop, step):
             yield line
             if rate is not None:
@@ -59,7 +59,7 @@ class ReceiveFromFile(object):
         self._rate = rate
         self._block = block
 
-    def __call__(self, maxsize): # pylint: disable=unused-argument
+    def __call__(self, maxsize):
         try:
 #            if rate is not None:
 #                time.sleep(rate)
@@ -73,4 +73,3 @@ class ReceiveFromFile(object):
 
 def recvfrom_file(path, client, rate=None, start=None, stop=None, step=None, block=False):
     return ReceiveFromFile(path=path, client=client, rate=rate, start=start, stop=stop, step=step, block=block)
-

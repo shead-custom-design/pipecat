@@ -77,4 +77,3 @@ def obd(connection, commands=None, rate=quantity(5, units.second)):
         yield record
 
         time.sleep(rate)
-

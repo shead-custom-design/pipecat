@@ -47,4 +47,3 @@ def keep(source, key=None, value=None):
         if key is not None and value is not None and record[key] != value:
             continue
         yield record
-

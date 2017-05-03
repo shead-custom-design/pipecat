@@ -90,4 +90,3 @@ def trace(source, name=None):
         pipecat.log.debug("%s exception: %s %s", name, type(e), e)
 
     pipecat.log.debug("%s finished", name)
-

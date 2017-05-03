@@ -1,4 +1,4 @@
-# Copyright 2017 Timothy M. Shead
+# Copyright 2016 Timothy M. Shead
 #
 # This file is part of Pipecat.
 #
@@ -56,4 +56,3 @@ def get(*args, **kwargs):
         yield record
 
         time.sleep(poll)
-

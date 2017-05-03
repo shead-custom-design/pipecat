@@ -112,4 +112,3 @@ class _FileHelper(object):
     def __exit__(self, exc_type, exc_val, exc_tb):
         if isinstance(self._fobj, pipecat.compatibility.string_type):
             self._file.close()
-

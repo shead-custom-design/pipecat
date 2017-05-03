@@ -57,5 +57,3 @@ def metronome(rate=pipecat.quantity(1.0, pipecat.units.seconds)):
         next_time = last_time + delay
         time.sleep(next_time - time.time())
         last_time = next_time
-
-

@@ -36,4 +36,3 @@ def receive(address, maxsize):
         pipecat.record.add_field(record, "client", client)
 
         yield record
-
