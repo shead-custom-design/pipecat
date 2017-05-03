@@ -20,7 +20,9 @@ Contents:
    pipecat.device.gps.rst
    pipecat.device.motion.rst
    pipecat.device.serial.rst
+   pipecat.device.weather.rst
    pipecat.filter.rst
+   pipecat.http.rst
    pipecat.limit.rst
    pipecat.queue.rst
    pipecat.record.rst
@@ -30,3 +32,4 @@ Contents:
    pipecat.test.rst
    pipecat.udp.rst
    pipecat.utility.rst
+   pipecat.xml.rst

@@ -35,7 +35,7 @@ def parse(source, key="string"):
     Yields
     ------
     records: dict
-        Records will contain a single `xml` key containing XML parsed from a source record.
+        Each record will contain a single `xml` key containing an XML DOM parsed from a source record.
     """
     for record in source:
         output = {}

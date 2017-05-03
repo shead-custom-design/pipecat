@@ -33,7 +33,7 @@ def get(*args, **kwargs):
 
     Parameters
     ----------
-    poll: time quantity, optiona.
+    poll: time quantity, optional.
         Time to wait between requests.
 
     Yields
