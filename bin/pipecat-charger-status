@@ -20,7 +20,7 @@ import pipecat.utility
 
 logging.basicConfig(level=logging.INFO)
 
-config = os.path.expanduser("~/.pipecat/charging-status")
+config = os.path.expanduser("~/.pipecat/charger-status")
 
 config_parser = argparse.ArgumentParser(add_help=False)
 config_parser.add_argument("--config", default=config, help="Configuration file.  Default: %(default)s")
