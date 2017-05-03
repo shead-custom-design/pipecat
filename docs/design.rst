@@ -63,7 +63,7 @@ Record Generators
 -----------------
 
 Record generators are any iterable expression (function or object) that
-produces records.  An iterable expression is any expression that can be used as
+produces records.  An iterable expression is any expression that can be used
 with the Python `for` statement, and you use `for` loops to read
 records from generators::
 
@@ -74,6 +74,7 @@ records from generators::
 Some examples of record generators include:
 
 * :func:`pipecat.device.clock.metronome`, which returns an empty record at fixed time intervals.
+* :func:`pipecat.http.get`, which retrieves data from an HTTP server at fixed time intervals.
 * :func:`pipecat.utility.readline`, which returns a record for each line in a file or file-like object.
 * :func:`pipecat.udp.receive`, which returns a record for each message received on a listening UDP port.
 
