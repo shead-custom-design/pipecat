@@ -11,8 +11,8 @@ Welcome!
 ========
 
 Welcome to Pipecat ... elegant, flexible data logging in Python for
-connected sensors and instruments.  Use Pipecat to log data from your
-battery charger, GPS, car, smart device gyros, and more!
+connected sensors and instruments.  Use Pipecat to log data from
+battery chargers, GPS, automobiles, gyros, weather, and more!
 
 Documentation
 =============
