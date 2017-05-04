@@ -47,7 +47,7 @@ setup(
     packages=find_packages(),
     scripts=[
         "bin/pipecat-charger-status",
-        "bin/pipecat-weather-status",
+        "bin/pipecat-wind-status",
         ],
     url="http://pipecat.readthedocs.org",
     version=re.search(

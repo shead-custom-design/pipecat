@@ -18,7 +18,7 @@ import pipecat.xml
 
 logging.basicConfig(level=logging.INFO)
 
-config = os.path.expanduser("~/.pipecat/weather-status")
+config = os.path.expanduser("~/.pipecat/wind-status")
 
 config_parser = argparse.ArgumentParser(add_help=False)
 config_parser.add_argument("--config", default=config, help="Configuration file.  Default: %(default)s")
@@ -48,7 +48,7 @@ parser.add_argument("--version", action="version", version="%(prog)s " + pipecat
 arguments = parser.parse_args(remaining_argv)
 
 if arguments.station is None:
-    raise ValueError("You must specify a METARs station using ~/.pipecat/weather-status or --station.")
+    raise ValueError("You must specify a METARs station using ~/.pipecat/wind-status or --station.")
 
 pipe = pipecat.http.get("https://aviationweather.gov/adds/dataserver_current/httpparam?dataSource=metars&requestType=retrieve&format=xml&hoursBeforeNow=12&mostRecent=true&stationString=%s" % arguments.station, poll=pipecat.quantity(900, pipecat.units.seconds))
 pipe = pipecat.xml.parse(pipe)
@@ -63,18 +63,20 @@ for record in pipe:
     if observation_time != last_observation_time:
         last_observation_time = observation_time
 
-        sys.stdout.write("{} {} wind {}\n".format(
-            observation_time.to("local"),
+        message = "{} wind {:~P} at {:HHmm}".format(
             station,
             wind,
-            ))
+            observation_time.to("local"),
+            )
+
+        sys.stdout.write("{}\n".format(message))
 
         if arguments.pushover_token is not None and arguments.pushover_user is not None:
             parameters = {
                 "token": arguments.pushover_token,
                 "user": arguments.pushover_user,
                 "title": "Weather update",
-                "message": "{} wind {} as of {}".format(station, wind, observation_time.humanize()),
+                "message": message,
             }
             requests.post("https://api.pushover.net/1/messages.json", params=parameters)
 
