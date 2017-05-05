@@ -47,3 +47,22 @@ def keep(source, key=None, value=None):
         if key is not None and value is not None and record[key] != value:
             continue
         yield record
+
+def duplicates(source, key):
+    """Discard records unless the given key value changes.
+
+    Parameters
+    ----------
+    source: :ref:`Record generator <record-generators>`, required
+    key: string or tuple-of-strings, required
+        Records will be discarded unless this key value changes.
+    """
+
+    initialized = False
+    value = None
+    for record in source:
+        if initialized and record[key] == value:
+            continue
+        initialized = True
+        value = record[key]
+        yield record
