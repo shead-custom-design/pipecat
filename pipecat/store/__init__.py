@@ -28,7 +28,7 @@ import pipecat.compatibility
 
 class Table(object):
     def __init__(self):
-        self._columns = collections.OrderedDict()
+        self.reset()
 
     def __len__(self):
         for column in self._columns.values():
@@ -58,6 +58,9 @@ class Table(object):
     def values(self):
         return self._columns.values()
 
+    def reset(self):
+        self._columns = collections.OrderedDict()
+
 class Cache(object):
     """Cache records in memory for column-oriented access."""
     def __init__(self, source):
@@ -80,6 +83,7 @@ class Cache(object):
     @property
     def table(self):
         return self._storage
+
 
 def cache(source):
     """Create an in-memory cache for records.
