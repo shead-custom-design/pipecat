@@ -40,21 +40,20 @@ def metars(source, key="xml"):
 
     for record in source:
         response = record[key]
-        data = response.find("data")
-        metar = data.find("METAR")
-
-        output = dict()
-        add_field(output, "raw", metar.find("raw_text").text)
-        add_field(output, "station-id", metar.find("station_id").text)
-        add_field(output, "observation-time", arrow.get(metar.find("observation_time").text))
-        add_field(output, "latitude", quantity(float(metar.find("latitude").text), units.degrees))
-        add_field(output, "longitude", quantity(float(metar.find("longitude").text), units.degrees))
-        add_field(output, "temperature", quantity(float(metar.find("temp_c").text), units.degC))
-        add_field(output, "dewpoint", quantity(float(metar.find("dewpoint_c").text), units.degC))
-        add_field(output, "wind-direction", quantity(float(metar.find("wind_dir_degrees").text), units.degrees))
-        add_field(output, "wind-speed", quantity(float(metar.find("wind_speed_kt").text), units.nautical_miles_per_hour))
-        add_field(output, "visibility", quantity(float(metar.find("visibility_statute_mi").text), units.mile))
-        add_field(output, "altimeter", quantity(float(metar.find("altim_in_hg").text), units.inHg))
-        add_field(output, "flight-category", metar.find("flight_category").text)
-        add_field(output, "elevation", quantity(float(metar.find("elevation_m").text), units.meters))
-        yield output
+        for data in response.findall("data"):
+            for metar in sorted(data.findall("METAR"), key=lambda x: x.find("observation_time").text):
+                output = dict()
+                add_field(output, "raw", metar.find("raw_text").text)
+                add_field(output, "station-id", metar.find("station_id").text)
+                add_field(output, "observation-time", arrow.get(metar.find("observation_time").text))
+                add_field(output, "latitude", quantity(float(metar.find("latitude").text), units.degrees))
+                add_field(output, "longitude", quantity(float(metar.find("longitude").text), units.degrees))
+                add_field(output, "temperature", quantity(float(metar.find("temp_c").text), units.degC))
+                add_field(output, "dewpoint", quantity(float(metar.find("dewpoint_c").text), units.degC))
+                add_field(output, "wind-direction", quantity(float(metar.find("wind_dir_degrees").text), units.degrees))
+                add_field(output, "wind-speed", quantity(float(metar.find("wind_speed_kt").text), units.nautical_miles_per_hour))
+                add_field(output, "visibility", quantity(float(metar.find("visibility_statute_mi").text), units.mile))
+                add_field(output, "altimeter", quantity(float(metar.find("altim_in_hg").text), units.inHg))
+                add_field(output, "flight-category", metar.find("flight_category").text)
+                add_field(output, "elevation", quantity(float(metar.find("elevation_m").text), units.meters))
+                yield output
