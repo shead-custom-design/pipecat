@@ -64,7 +64,7 @@ for record in pipe:
     wind = record["wind-speed"]
 
     # Clear the contents of the cache whenever we start a new day.
-    if len(pipe.table) > 1 and observation_time != pipe.table["observation-time"][-2].to("local").day:
+    if len(pipe.table) > 1 and observation_time.day != pipe.table["observation-time"][-2].to("local").day:
         pipe.table.reset()
         pipe.table.append(record)
 
@@ -72,10 +72,10 @@ for record in pipe:
     if len(pipe.table) > 1:
         deltas = pipe.table["wind-speed"][1:] - pipe.table["wind-speed"][:-1]
         for delta in deltas:
-            if delta > 0:
+            if delta.magnitude > 0:
                 message += u"\u2191"
-            elif delta == 0:
-                message += u"\u2199"
+            elif delta.magnitude == 0:
+                message += u"\u2219"
             else:
                 message += u"\u2193"
     message += u"{:~P} at {:HHmm}".format(wind, observation_time)
