@@ -38,6 +38,9 @@ def parse(source, key="string"):
         Each record will contain a single `xml` key containing an XML DOM parsed from a source record.
     """
     for record in source:
-        output = {}
-        pipecat.record.add_field(output, "xml", xml.fromstring(record[key]))
-        yield output
+        try:
+            output = {}
+            pipecat.record.add_field(output, "xml", xml.fromstring(record[key]))
+            yield output
+        except Exception as e:
+            pipecat.log.error(e)

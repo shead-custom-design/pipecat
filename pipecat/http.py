@@ -44,15 +44,18 @@ def get(*args, **kwargs):
     poll = kwargs.pop("poll", pipecat.quantity(5, pipecat.units.seconds)).to(pipecat.units.seconds).magnitude
 
     while True:
-        result = requests.get(*args, **kwargs)
+        try:
+            result = requests.get(*args, **kwargs)
 
-        record = {}
-        pipecat.record.add_field(record, "status", result.status_code)
-        for key, value in result.headers.items():
-            pipecat.record.add_field(record, ("header", key), value)
-        pipecat.record.add_field(record, "encoding", result.encoding)
-        pipecat.record.add_field(record, "string", result.text)
+            record = {}
+            pipecat.record.add_field(record, "status", result.status_code)
+            for key, value in result.headers.items():
+                pipecat.record.add_field(record, ("header", key), value)
+            pipecat.record.add_field(record, "encoding", result.encoding)
+            pipecat.record.add_field(record, "string", result.text)
 
-        yield record
+            yield record
+        except Exception as e:
+            pipecat.log.error(e)
 
         time.sleep(poll)
