@@ -20,9 +20,13 @@
 
 from __future__ import absolute_import, division, print_function
 
+import logging
 import xml.etree.ElementTree as xml
 
 import pipecat.record
+
+log = logging.getLogger(__name__)
+log.addHandler(logging.NullHandler())
 
 def parse(source, key="string"):
     """Parse XML data from a record.
@@ -43,4 +47,4 @@ def parse(source, key="string"):
             pipecat.record.add_field(output, "xml", xml.fromstring(record[key]))
             yield output
         except Exception as e:
-            pipecat.log.error(e)
+            log.error(e)

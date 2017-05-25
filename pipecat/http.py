@@ -20,11 +20,15 @@
 
 from __future__ import absolute_import, division, print_function
 
+import logging
 import time
 
 import requests
 
 import pipecat.record
+
+log = logging.getLogger(__name__)
+log.addHandler(logging.NullHandler())
 
 def get(*args, **kwargs):
     """Retrieve data using HTTP requests.
@@ -56,6 +60,6 @@ def get(*args, **kwargs):
 
             yield record
         except Exception as e:
-            pipecat.log.error(e)
+            log.error(e)
 
         time.sleep(poll)
