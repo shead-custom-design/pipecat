@@ -56,6 +56,16 @@ def convert_notebook(name, force):
     if os.path.exists(target) and os.path.getmtime(target) >= os.path.getmtime(source) and not force:
         return
 
+    nbconvert_version = subprocess.check_output(["jupyter", "nbconvert", "--version"]).strip()
+    if nbconvert_version not in ["4.0.0", "4.1.0", "4.2.0"]:
+        raise Exception("Unsupported nbconvert version: %s" % nbconvert_version)
+
+    # Some installations of ipython don't properly configure the hooks for Pygments lexers, which leads to missing
+    # source code cells when the documentation is built on readthedocs.org.
+    import pygments.plugin
+    if not list(pygments.plugin.find_plugin_lexers()):
+        raise Exception("It appears that ipython isn't configured correctly.  This is a known issue with the stock conda ipython package.  Try `conda update ipython -c conda-forge` instead.")
+
     # Convert the notebook into restructured text suitable for the
     # documentation.
     with open(source) as f:
