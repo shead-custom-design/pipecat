@@ -22,6 +22,7 @@ from __future__ import absolute_import, division, print_function
 from pipecat import quantity, units
 from pipecat.record import add_field
 
+
 def ios(rate=quantity(1, units.second)):
     """Retrieve motion information from an iOS device.
 

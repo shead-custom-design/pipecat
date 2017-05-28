@@ -26,6 +26,7 @@ import serial
 
 import pipecat.utility
 
+
 def readline(*args, **kwargs):
     """Reliably read lines from a serial port.
 

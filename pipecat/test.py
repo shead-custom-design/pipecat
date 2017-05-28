@@ -71,5 +71,6 @@ class ReceiveFromFile(object):
             else:
                 raise e
 
+
 def recvfrom_file(path, client, rate=None, start=None, stop=None, step=None, block=False):
     return ReceiveFromFile(path=path, client=client, rate=rate, start=start, stop=stop, step=step, block=block)

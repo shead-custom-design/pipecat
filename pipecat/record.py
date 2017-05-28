@@ -23,6 +23,7 @@ import sys
 
 import pipecat
 
+
 def add_field(record, key, value):
     """Add a key-value pair to a record.
 
@@ -39,6 +40,7 @@ def add_field(record, key, value):
     if key in record:
         pipecat.log.warning("Overwriting %s=%s with %s=%s", key, record[key], key, value)
     record[key] = value
+
 
 def dump(record, fobj=sys.stdout):
     """Dump a human-readable text representation of a record to a file-like object.

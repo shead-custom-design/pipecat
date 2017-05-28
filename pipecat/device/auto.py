@@ -27,6 +27,7 @@ import obd as obdii
 from pipecat import quantity, units
 from pipecat.record import add_field
 
+
 def obd(connection, commands=None, rate=quantity(5, units.second)):
     """Retrieve OBD-II data from an automobile.
 

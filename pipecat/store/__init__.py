@@ -26,6 +26,7 @@ import numpy
 
 import pipecat.compatibility
 
+
 class Table(object):
     def __init__(self):
         self.reset()
@@ -60,6 +61,7 @@ class Table(object):
 
     def reset(self):
         self._columns = collections.OrderedDict()
+
 
 class Cache(object):
     """Cache records in memory for column-oriented access."""

@@ -11,3 +11,7 @@ Feature: Administrivia
     Scenario:
         Given pylint
         Then all pylint tests must pass without any messages.
+
+    Scenario:
+        Given pycodestyle
+        Then all pycodestyle tests must pass without warning.

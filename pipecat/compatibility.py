@@ -25,16 +25,16 @@ from __future__ import absolute_import, division, print_function
 
 try:
     string_type = basestring
-except:  # pragma: no cover pylint: disable=bare-except
+except: # pragma: no cover pylint: disable=bare-except
     string_type = str
 
 try:
     basestring # pylint: disable=pointless-statement
     unicode_type = unicode
-except:  # pragma: no cover pylint: disable=bare-except
+except: # pragma: no cover pylint: disable=bare-except
     unicode_type = str
 
 try:
     bytes_type = bytes
-except:  # pragma: no cover pylint: disable=bare-except
+except: # pragma: no cover pylint: disable=bare-except
     bytes_type = str

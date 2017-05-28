@@ -25,6 +25,7 @@ try:
 except ImportError:
     from queue import Queue, Empty # pylint: disable=import-error
 
+
 def receive(queue):
     """Receive records from a queue.
 
@@ -41,6 +42,7 @@ def receive(queue):
         if record is StopIteration:
             break
         yield record
+
 
 def send(source, queue, shutdown=None):
     """Send records from a source to a queue.

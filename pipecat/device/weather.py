@@ -24,6 +24,7 @@ import arrow
 from pipecat import quantity, units
 from pipecat.record import add_field
 
+
 def metars(source, key="xml"):
     """Parse METAR information retrieved from https://aviationweather.gov/metar.
 

@@ -22,6 +22,7 @@ from __future__ import absolute_import, division, print_function
 from pipecat import quantity, units
 from pipecat.record import add_field
 
+
 def icharger208b(source):
     """Parse data from an iCharger 208B battery charger.
 

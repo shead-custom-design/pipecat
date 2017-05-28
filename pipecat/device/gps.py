@@ -25,6 +25,7 @@ import operator
 
 import pipecat.record
 
+
 def nmea(source):
     """Parse NMEA messages from raw strings.
 

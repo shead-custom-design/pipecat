@@ -48,7 +48,7 @@ setup(
     scripts=[
         "bin/pipecat-charger-status",
         "bin/pipecat-wind-status",
-        ],
+    ],
     url="http://pipecat.readthedocs.org",
     version=re.search(
         r"^__version__ = ['\"]([^'\"]*)['\"]",
@@ -57,4 +57,3 @@ setup(
             "r").read(),
         re.M).group(1),
 )
-

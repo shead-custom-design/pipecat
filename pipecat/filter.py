@@ -48,6 +48,7 @@ def keep(source, key=None, value=None):
             continue
         yield record
 
+
 def duplicates(source, key):
     """Discard records unless the given key value changes.
 

@@ -49,6 +49,7 @@ copyright_notice = """# Copyright 2016 Timothy M. Shead
 portability_imports = """from __future__ import absolute_import, division, print_function
 """
 
+
 @given(u'all sources.')
 def step_impl(context):
     context.sources = []
@@ -104,3 +105,16 @@ def step_impl(context):
     pylint = subprocess.check_call(command)
 
 
+@given(u'pycodestyle')
+def step_impl(context):
+    for path in os.environ["PATH"].split(os.pathsep):
+        if os.path.exists(os.path.join(path, "pycodestyle")):
+            context.pycodestyle = os.path.join(path, "pycodestyle")
+            return
+    context.scenario.skip(reason="The pycodestyle command is not available.")
+
+
+@then(u'all pycodestyle tests must pass without warning.')
+def step_impl(context):
+    command = [context.pycodestyle, "--exclude", "docs,sandbox", package_dir]
+    pycodestyle = subprocess.check_call(command)

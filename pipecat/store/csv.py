@@ -22,6 +22,7 @@ from __future__ import absolute_import, division, print_function
 
 import pipecat.store
 
+
 def write(source, fobj):
     """Append records to a CSV file."""
     with pipecat.store._FileHelper(fobj, "a+b") as fobj:

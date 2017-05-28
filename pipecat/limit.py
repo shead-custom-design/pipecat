@@ -163,6 +163,7 @@ def timeout(source, timeout, initial=pipecat.quantity(1, pipecat.units.hours), n
     except GeneratorExit:
         shutdown.set()
 
+
 def until(source, key, value, name=None):
     """Return records from another source until a record occurs with a specific key and value.
 

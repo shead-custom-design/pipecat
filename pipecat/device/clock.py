@@ -23,6 +23,7 @@ import time
 
 import pipecat
 
+
 def metronome(rate=pipecat.quantity(1.0, pipecat.units.seconds)):
     """Generate an empty record at fixed time intervals using the host clock.
 

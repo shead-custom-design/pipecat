@@ -17,4 +17,3 @@
 # Copyright 2016 Timothy M. Shead
 
 from behave import *
-

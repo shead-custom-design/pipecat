@@ -24,6 +24,7 @@ import socket
 
 import pipecat.record
 
+
 def receive(address, maxsize):
     """Receive messages from a UDP socket."""
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

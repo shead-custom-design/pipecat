@@ -26,6 +26,7 @@ import pint
 
 import pipecat.store
 
+
 def write(source, fobj):
     """Append records to a pickle file."""
     with pipecat.store._FileHelper(fobj, "a+b") as fobj:

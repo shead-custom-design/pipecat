@@ -27,6 +27,7 @@ root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 docs_dir = os.path.join(root_dir, "docs")
 package_dir = os.path.join(root_dir, "pipecat")
 
+
 @given(u'all public modules')
 def step_impl(context):
     def walk_modules(package, path):
@@ -36,6 +37,7 @@ def step_impl(context):
             modules += walk_modules(package + "." + name, os.path.join(path, name))
         return modules
     context.modules = sorted(walk_modules("pipecat", package_dir))
+
 
 @given(u'the reference documentation')
 def step_impl(context):
@@ -50,11 +52,13 @@ def step_impl(context):
             context.references.append(os.path.join(directory, filename))
     context.references = sorted(context.references)
 
+
 @then(u'every module must have a section in the reference documentation')
 def step_impl(context):
     for module in context.modules:
         if os.path.join(docs_dir, module + ".rst") not in context.references:
             raise AssertionError("No matching documentation found for the %s module." % module)
+
 
 @then(u'every section in the reference documentation must match a module')
 def step_impl(context):
@@ -62,4 +66,3 @@ def step_impl(context):
     for reference in context.references:
         if reference not in modules:
             raise AssertionError("No matching module found for %s." % reference)
-
