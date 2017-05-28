@@ -12,7 +12,8 @@ install:
     - conda config --set always_yes yes --set changeps1 no
     - conda update -q conda
     - conda info -a
-    - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION mock numpy=1.12.1 pip pylint=1.6.4
+    - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION mock numpy=1.12.1 pip
+    - conda install pylint=1.6.4 # This needs to be on a separate line.  Not sure why.
     - source activate test-environment
     - pip install arrow behave coverage coveralls nose-exclude obd Pint
 script:
