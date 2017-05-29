@@ -26,20 +26,23 @@ import pipecat.compatibility
 import pipecat.store
 
 data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data"))
-print(data_dir)
+
 
 @given(u'a file named {filename}.')
 def step_impl(context, filename):
     context.pipe = open(os.path.join(data_dir, filename), "rb")
 
+
 @given(u'an instance of pipecat.store.cache.')
 def step_impl(context):
     context.pipe = pipecat.store.cache(context.pipe)
+
 
 @then(u'the pipe can be iterated to completion.')
 def step_impl(context):
     for record in context.pipe:
         pass
+
 
 @then(u'after iterating through the pipe\'s contents.')
 def step_impl(context):
@@ -47,22 +50,25 @@ def step_impl(context):
     for record in context.pipe:
         context.records.append(record)
 
+
 @then(u'{count} records will be returned.')
 def step_impl(context, count):
     nose.tools.assert_equal(len(context.records), int(count))
+
 
 @then(u'every record will contain a {key} key.')
 def step_impl(context, key):
     for record in context.records:
         nose.tools.assert_in(key, record)
 
+
 @then(u'the {key} key will have a string value.')
 def step_impl(context, key):
 	for record in context.records:
 		nose.tools.assert_is_instance(record[key], pipecat.compatibility.string_type)
 
+
 @then(u'the {key} key will have an arrow value.')
 def step_impl(context, key):
     for record in context.records:
-		nose.tools.assert_is_instance(record[key], arrow.arrow.Arrow)
-
+        nose.tools.assert_is_instance(record[key], arrow.arrow.Arrow)
