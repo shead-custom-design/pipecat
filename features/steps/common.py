@@ -44,7 +44,7 @@ def step_impl(context):
         pass
 
 
-@then(u'after iterating through the pipe\'s contents.')
+@given(u'after iterating through the pipe contents.')
 def step_impl(context):
     context.records = []
     for record in context.pipe:
@@ -56,19 +56,23 @@ def step_impl(context, count):
     nose.tools.assert_equal(len(context.records), int(count))
 
 
-@then(u'every record will contain a {key} key.')
+@then(u'every record will contain a {key} key with a string value.')
 def step_impl(context, key):
+    key = eval(key)
     for record in context.records:
         nose.tools.assert_in(key, record)
+        nose.tools.assert_is_instance(record[key], pipecat.compatibility.string_type)
 
 
-@then(u'the {key} key will have a string value.')
+@then(u'every record will contain a {key} key with an arrow value.')
 def step_impl(context, key):
-	for record in context.records:
-		nose.tools.assert_is_instance(record[key], pipecat.compatibility.string_type)
-
-
-@then(u'the {key} key will have an arrow value.')
-def step_impl(context, key):
+    key = eval(key)
     for record in context.records:
+        nose.tools.assert_in(key, record)
         nose.tools.assert_is_instance(record[key], arrow.arrow.Arrow)
+
+
+@given(u'a pyserial connection.')
+def step_impl(context):
+    import serial
+    context.pipe = serial.serial_for_url("/dev/cu.SLAB_USBtoUART", baudrate=128000)
