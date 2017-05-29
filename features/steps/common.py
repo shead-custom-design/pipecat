@@ -64,6 +64,14 @@ def step_impl(context, key):
         nose.tools.assert_is_instance(record[key], pipecat.compatibility.string_type)
 
 
+@then(u'every record will contain a {key} key with a bytes value.')
+def step_impl(context, key):
+    key = eval(key)
+    for record in context.records:
+        nose.tools.assert_in(key, record)
+        nose.tools.assert_is_instance(record[key], pipecat.compatibility.bytes_type)
+
+
 @then(u'every record will contain a {key} key with an arrow value.')
 def step_impl(context, key):
     key = eval(key)
