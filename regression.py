@@ -17,6 +17,6 @@
 
 import subprocess
 
-subprocess.call(["coverage", "run", "--append", "--source", "pipecat", "-m", "behave"])
+subprocess.call(["coverage", "run", "--append", "--source", "pipecat", "--omit", "pipecat/test.py", "-m", "behave"])
 subprocess.call(["coverage", "report"])
 subprocess.call(["coverage", "html", "--directory", ".cover"])
