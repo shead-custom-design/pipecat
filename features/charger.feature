@@ -5,7 +5,7 @@ Feature: pipecat.device.charger
         And a pyserial connection.
         And an instance of pipecat.utility.readline.
         And an instance of pipecat.device.charger.icharger208b
-        And after iterating through the pipe contents.
+        When iterating through the pipe contents.
         Then every record will contain a ("charger","mode") key with a string value.
 
 #battery/cell1/voltage: 0.0 volt
@@ -19,7 +19,6 @@ Feature: pipecat.device.charger
 #battery/charge: 0.0 hour * milliampere
 #battery/current: 930.0 milliampere
 #battery/voltage: 3.874 volt
-#charger/mode: charge
 #charger/supply: 12.25 volt
 #charger/temperature/external: 23.6 degC
 #charger/temperature/internal: 29.1 degC

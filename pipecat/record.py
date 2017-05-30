@@ -38,7 +38,7 @@ def add_field(record, key, value):
     """
 
     if key in record:
-        pipecat.log.warning("Overwriting %s=%s with %s=%s", key, record[key], key, value)
+        pipecat.log.warning("Overwriting %s=%s with %s=%s", key, record[key], key, value) # pragma: no cover
     record[key] = value
 
 
@@ -55,6 +55,6 @@ def dump(record, fobj=sys.stdout):
     for key, value in sorted(record.items()):
         if isinstance(key, tuple):
             key = "/".join(key)
-        fobj.write("%s: %s\n" % (key, value))
-    fobj.write("\n")
+        fobj.write(u"%s: %s\n" % (key, value))
+    fobj.write(u"\n")
     fobj.flush()

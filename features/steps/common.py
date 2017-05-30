@@ -16,6 +16,7 @@
 # along with Pipecat.  If not, see <http://www.gnu.org/licenses/>.
 # Copyright 2016 Timothy M. Shead
 
+import io
 import os
 
 from behave import *
@@ -26,6 +27,7 @@ import pipecat.compatibility
 import pipecat.store
 
 data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data"))
+reference_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "reference"))
 
 
 @given(u'a file named {filename}.')
@@ -44,7 +46,7 @@ def step_impl(context):
         pass
 
 
-@given(u'after iterating through the pipe contents.')
+@when(u'iterating through the pipe contents.')
 def step_impl(context):
     context.records = []
     for record in context.pipe:
@@ -84,3 +86,16 @@ def step_impl(context, key):
 def step_impl(context):
     import serial
     context.pipe = serial.serial_for_url("/dev/cu.SLAB_USBtoUART", baudrate=128000)
+
+
+@given(u'a string stream.')
+def step_impl(context):
+    context.stream = io.StringIO()
+
+
+@then(u'the stream contents will match {filename}')
+def step_impl(context, filename):
+	with open(os.path.join(reference_dir, filename), "rb") as reference:
+		nose.tools.assert_equal(reference.read(), context.stream.getvalue())
+
+
