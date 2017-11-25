@@ -61,7 +61,11 @@ def readline(fobj):
         connection, or any other object that returns lines of text during
         iteration.
     """
-    for line in fobj:
+    while True:
+        line = fobj.readline()
+        if not line:
+            break
+
         record = {}
         pipecat.record.add_field(record, "string", line)
         yield record
