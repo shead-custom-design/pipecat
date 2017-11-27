@@ -32,6 +32,7 @@ def write(source, fobj):
     with pipecat.store._FileHelper(fobj, "a+b") as fobj:
         for record in source:
             pickle.dump(record, fobj)
+            fobj.flush()
             yield record
 
 
