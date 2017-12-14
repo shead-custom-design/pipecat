@@ -1,5 +1,6 @@
-Welcome!
-========
+# Welcome!
+
+<img src="artwork/pipecat.png" width="300" style="float:right"/>
 
 Welcome to Pipecat ... elegant, flexible data logging in Python for
 connected sensors and instruments.  Use Pipecat to log data from
@@ -17,7 +18,9 @@ Here are some devices supported by Pipecat and examples of how to log their data
 * Any device that can write to a socket using UDP.
 * Any device that can generate XML data.
 
-![pipecat](https://github.com/shead-custom-design/pipecat/blob/master/artwork/pipecat.png?raw=true)
+You can see the full Pipecat documentation with tutorials at
+https://pipecat.readthedocs.io ... for questions, comments, or suggestions, get
+in touch with our team at https://gitter.im/shead-custom-design/pipecat.
 
 License
 =======
