@@ -25,7 +25,7 @@ import pipecat.store
 
 def write(source, fobj):
     """Append records to a CSV file."""
-    with pipecat.store._FileHelper(fobj, "a+b") as fobj:
+    with pipecat.store._FileHelper(fobj, "a+b") as fobj: # pylint: disable=redefined-argument-from-local
         for record in source:
             start_record = 1
             for key, value in sorted(record.items()):

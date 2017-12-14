@@ -37,7 +37,7 @@ def read_file(path, rate=None, start=None, stop=None, step=None, block=False):
     if rate is not None:
         rate = rate.to(pipecat.units.seconds).magnitude
 
-    def implementation(*args, **kwargs):
+    def implementation(*args, **kwargs): # pylint: disable=unused-argument
         for line in itertools.islice(open(path, "r"), start, stop, step):
             yield line
             if rate is not None:

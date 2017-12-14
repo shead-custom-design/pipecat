@@ -29,7 +29,7 @@ import pipecat.store
 
 def write(source, fobj):
     """Append records to a pickle file."""
-    with pipecat.store._FileHelper(fobj, "a+b") as fobj:
+    with pipecat.store._FileHelper(fobj, "a+b") as fobj: # pylint: disable=redefined-argument-from-local
         for record in source:
             pickle.dump(record, fobj)
             fobj.flush()
@@ -38,7 +38,7 @@ def write(source, fobj):
 
 def read(fobj):
     """Read records from a pickle file."""
-    with pipecat.store._FileHelper(fobj, "rb") as fobj:
+    with pipecat.store._FileHelper(fobj, "rb") as fobj: # pylint: disable=redefined-argument-from-local
         pint.set_application_registry(pipecat.units)
         try:
             while True:

@@ -103,18 +103,3 @@ def step_impl(context):
 def step_impl(context):
     command = [context.pylint, package_dir]
     pylint = subprocess.check_call(command)
-
-
-@given(u'pycodestyle')
-def step_impl(context):
-    for path in os.environ["PATH"].split(os.pathsep):
-        if os.path.exists(os.path.join(path, "pycodestyle")):
-            context.pycodestyle = os.path.join(path, "pycodestyle")
-            return
-    context.scenario.skip(reason="The pycodestyle command is not available.")
-
-
-@then(u'all pycodestyle tests must pass without warning.')
-def step_impl(context):
-    command = [context.pycodestyle, "--exclude", "docs,sandbox", package_dir]
-    pycodestyle = subprocess.check_call(command)

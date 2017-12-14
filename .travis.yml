@@ -1,4 +1,5 @@
 sudo: false
+dist: precise
 language: python
 python:
     - "2.7"
@@ -14,7 +15,7 @@ install:
     - conda info -a
     - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION mock numpy=1.12.1 pip
     - source activate test-environment
-    - pip install arrow behave coverage coveralls nose-exclude obd Pint pycodestyle
+    - pip install arrow behave coverage coveralls nose-exclude obd Pint pylint
 script:
     - coverage run --source pipecat -m behave
     - coverage report

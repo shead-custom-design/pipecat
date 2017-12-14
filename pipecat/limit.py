@@ -26,7 +26,7 @@ import time
 import pipecat.queue
 
 
-def count(source, count, name=None):
+def count(source, count, name=None): # pylint: disable=redefined-outer-name
     """Limits the number of records returned from a source.
 
     Examples
@@ -58,7 +58,7 @@ def count(source, count, name=None):
         yield next(source)
 
 
-def duration(source, duration, timeout=pipecat.quantity(0.1, pipecat.units.seconds), name=None):
+def duration(source, duration, timeout=pipecat.quantity(0.1, pipecat.units.seconds), name=None): # pylint: disable=redefined-outer-name
     """Return records from a source until a fixed time duration has expired.
 
     Examples
@@ -117,7 +117,7 @@ def duration(source, duration, timeout=pipecat.quantity(0.1, pipecat.units.secon
         shutdown.set()
 
 
-def timeout(source, timeout, initial=pipecat.quantity(1, pipecat.units.hours), name=None):
+def timeout(source, timeout, initial=pipecat.quantity(1, pipecat.units.hours), name=None): # pylint: disable=redefined-outer-name
     """Return records from another source until they stop arriving.
 
     Parameters
