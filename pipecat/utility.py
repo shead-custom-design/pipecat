@@ -58,17 +58,23 @@ def readline(fobj):
     ----------
     fobj: file-like object, required
         This could be an open file, instance of :class:`io.StringIO`, a serial
-        connection, or any other object that returns lines of text during
-        iteration.
+        connection, or any other object from which lines of text can be read.
     """
-    while True:
-        line = fobj.readline()
-        if not line:
-            break
+    if hasattr(fobj, "readline"):
+        while True:
+            line = fobj.readline()
+            if not line:
+                break
 
-        record = {}
-        pipecat.record.add_field(record, "string", line)
-        yield record
+            record = {}
+            pipecat.record.add_field(record, "string", line)
+            yield record
+    else:
+        for line in fobj:
+            record = {}
+            pipecat.record.add_field(record, "string", line)
+            yield record
+
 
 
 def trace(source, name=None):
