@@ -95,7 +95,7 @@ def step_impl(context):
 
 @then(u'the stream contents will match {filename}')
 def step_impl(context, filename):
-	with open(os.path.join(reference_dir, filename), "rb") as reference:
+	with open(os.path.join(reference_dir, filename), "r") as reference:
 		nose.tools.assert_equal(reference.read(), context.stream.getvalue())
 
 
