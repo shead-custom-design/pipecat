@@ -26,7 +26,6 @@ import xml.etree.ElementTree as xml
 import pipecat.record
 
 log = logging.getLogger(__name__)
-log.addHandler(logging.NullHandler())
 
 
 def parse(source, key="string"):

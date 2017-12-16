@@ -27,8 +27,7 @@ import pint
 __version__ = "0.4.0-dev"
 
 log = logging.getLogger(__name__)
-""":class:`logging.Logger`: All pipecat logging output uses this logger.
-"""
+log.addHandler(logging.NullHandler())
 
 units = pint.UnitRegistry()
 """Provides units for defining and converting physical quantities.

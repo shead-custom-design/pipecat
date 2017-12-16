@@ -28,7 +28,6 @@ import requests
 import pipecat.record
 
 log = logging.getLogger(__name__)
-log.addHandler(logging.NullHandler())
 
 
 def get(*args, **kwargs):
