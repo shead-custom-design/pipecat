@@ -76,10 +76,6 @@ def icharger208b(source):
     }
 
     for record in source:
-        print(type(record))
-        print(type(record["string"]))
-        print(type(record["string"].strip()))
-        print(type(record["string"].strip().split(";")))
         raw = record["string"].strip().split(";")
 
         record = dict()

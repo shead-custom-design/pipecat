@@ -51,7 +51,7 @@ def add_timestamp(source, key="timestamp"):
         yield record
 
 
-def readline(fobj):
+def readline(fobj, encoding="utf-8"):
     """Extract lines from a file or file-like object.
 
     Parameters
@@ -59,6 +59,10 @@ def readline(fobj):
     fobj: file-like object, required
         This could be an open file, instance of :class:`io.StringIO`, a serial
         connection, or any other object from which lines of text can be read.
+
+    Yields
+    ------
+    record: dict containing a "string" field of type str
     """
     if hasattr(fobj, "readline"):
         while True:
@@ -67,12 +71,12 @@ def readline(fobj):
                 break
 
             record = {}
-            pipecat.record.add_field(record, "string", line)
+            pipecat.record.add_field(record, "string", line.decode(encoding))
             yield record
     else:
         for line in fobj:
             record = {}
-            pipecat.record.add_field(record, "string", line)
+            pipecat.record.add_field(record, "string", line.decode(encoding))
             yield record
 
 
