@@ -20,6 +20,7 @@ using pip, these are automatically installed for you):
 * arrow - Better dates and times for Python - http://arrow.readthedocs.io
 * numpy >= 1.8.0 - http://numpy.org
 * Pint - makes units easy - https://pint.readthedocs.io
+* six - http://pythonhosted.org/six
 
 Source Installation
 -------------------

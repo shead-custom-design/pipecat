@@ -39,6 +39,7 @@ setup(
         "arrow",
         "numpy>=1.8.0",
         "Pint",
+        "six",
     ],
     long_description="""Pipecat provides a simple, flexible framework for retrieving data from connected sensors and instruments.
     See the Pipecat documentation at http://pipecat.readthedocs.io, and the Pipecat sources at http://github.com/shead-custom-design/pipecat""",

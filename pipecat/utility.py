@@ -20,6 +20,7 @@
 from __future__ import absolute_import, division, print_function
 
 import arrow
+import six
 
 import pipecat.record
 
@@ -64,20 +65,24 @@ def readline(fobj, encoding="utf-8"):
     ------
     record: dict containing a "string" field of type str
     """
-    if hasattr(fobj, "readline"):
-        while True:
-            line = fobj.readline()
-            if not line:
-                break
+    def line_iterator(fobj):
+        if hasattr(fobj, "readline"):
+            while True:
+                line = fobj.readline()
+                if not line:
+                    break
+                yield line
+        else:
+            for line in fobj:
+                yield line
 
-            record = {}
-            pipecat.record.add_field(record, "string", line.decode(encoding))
-            yield record
-    else:
-        for line in fobj:
-            record = {}
-            pipecat.record.add_field(record, "string", line.decode(encoding))
-            yield record
+    for line in line_iterator(fobj):
+        if isinstance(line, six.binary_type):
+            line = line.decode(encoding)
+
+        record = {}
+        pipecat.record.add_field(record, "string", line)
+        yield record
 
 
 

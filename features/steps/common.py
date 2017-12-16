@@ -22,8 +22,8 @@ import os
 from behave import *
 import arrow
 import nose.tools
+import six
 
-import pipecat.compatibility
 import pipecat.store
 
 data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data"))
@@ -63,7 +63,7 @@ def step_impl(context, key):
     key = eval(key)
     for record in context.records:
         nose.tools.assert_in(key, record)
-        nose.tools.assert_is_instance(record[key], pipecat.compatibility.string_type)
+        nose.tools.assert_is_instance(record[key], six.string_types)
 
 
 @then(u'every record will contain a {key} key with a bytes value.')
@@ -71,7 +71,7 @@ def step_impl(context, key):
     key = eval(key)
     for record in context.records:
         nose.tools.assert_in(key, record)
-        nose.tools.assert_is_instance(record[key], pipecat.compatibility.bytes_type)
+        nose.tools.assert_is_instance(record[key], six.binary_type)
 
 
 @then(u'every record will contain a {key} key with an arrow value.')

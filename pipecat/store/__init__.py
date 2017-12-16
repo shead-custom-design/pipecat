@@ -23,8 +23,7 @@ from __future__ import absolute_import, division, print_function
 import collections
 
 import numpy
-
-import pipecat.compatibility
+import six
 
 
 class Table(object):
@@ -109,12 +108,12 @@ class _FileHelper(object):
         self._file = None
 
     def __enter__(self):
-        if isinstance(self._fobj, pipecat.compatibility.string_type):
+        if isinstance(self._fobj, six.string_types):
             self._file = open(self._fobj, self._mode)
             return self._file
         else:
             return self._fobj
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        if isinstance(self._fobj, pipecat.compatibility.string_type):
+        if isinstance(self._fobj, six.string_types):
             self._file.close()

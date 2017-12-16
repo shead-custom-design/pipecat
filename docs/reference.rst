@@ -11,7 +11,6 @@ Contents:
    :maxdepth: 2
 
    pipecat.rst
-   pipecat.compatibility.rst
    pipecat.connect.rst
    pipecat.device.rst
    pipecat.device.auto.rst
