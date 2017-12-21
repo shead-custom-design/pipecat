@@ -20,6 +20,7 @@
 
 from __future__ import absolute_import, division, print_function
 
+from six.moves import BaseHTTPServer
 import logging
 import time
 
@@ -63,3 +64,45 @@ def get(*args, **kwargs):
             log.error(e)
 
         time.sleep(poll)
+
+
+def receive(address):
+    class Handler(BaseHTTPServer.BaseHTTPRequestHandler):
+        server_version = "Pipecat/" + pipecat.__version__
+
+        record = {}
+
+        def create_record(self):
+            request_size = int(self.headers.get("Content-length", 0))
+
+            Handler.record.clear()
+            pipecat.record.add_field(Handler.record, "client", self.client_address)
+            pipecat.record.add_field(Handler.record, "version", self.request_version)
+            pipecat.record.add_field(Handler.record, "method", self.command)
+            pipecat.record.add_field(Handler.record, "path", self.path)
+            pipecat.record.add_field(Handler.record, "body", self.rfile.read(request_size))
+
+            self.send_response(200)
+            self.end_headers()
+
+        def do_GET(self):
+            self.create_record()
+
+        def do_PUT(self):
+            self.create_record()
+
+        def do_POST(self):
+            self.create_record()
+
+        def do_DELETE(self):
+            self.create_record()
+
+        def log_message(self, format, *args):
+            log.debug(format, *args)
+
+    server = BaseHTTPServer.HTTPServer(address, Handler)
+
+    while True:
+        server.handle_request()
+        yield Handler.record
+
