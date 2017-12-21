@@ -25,6 +25,7 @@ import collections
 import numpy
 import six
 
+import pipecat
 
 class Table(object):
     def __init__(self):
