@@ -22,6 +22,7 @@ Contents:
    pipecat.device.weather.rst
    pipecat.filter.rst
    pipecat.http.rst
+   pipecat.json.rst
    pipecat.limit.rst
    pipecat.queue.rst
    pipecat.record.rst
