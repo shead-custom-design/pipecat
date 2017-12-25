@@ -28,34 +28,28 @@ import pipecat.record
 log = logging.getLogger(__name__)
 
 
-def parse(source, key="string", delimiter="/"):
-    """Parse JSON data from a record.
+def parse(source, key="string", keyout="json"):
+    """Parse JSON data from records.
+
+    This filter parses an incoming record key as JSON, appending the JSON data
+    to the output.
 
     Parameters
     ----------
     source: :ref:`Record generator <record-generators>`, required
     key: :ref:`Record key <record-keys>`, optional
+        The key in incoming records to parse as JSON.
+    keyout: :ref:`Record key <record-keys>`, optional
+        The key in outgoing records where the parsed JSON will be stored.
 
     Yields
     ------
-    records: dict
-        Top-level key-value pairs in the JSON will become record fields.
+    record: dict
+        Input records with an additional `keyout` field containing JSON-compatible data.
     """
     for record in source:
         try:
-            data = json.loads(record[key])
-
-            output = {}
-            for k, v in data.items():
-
-                if delimiter:
-                    k = k.split(delimiter)
-                    k = tuple(k) if len(k) > 1 else k[0]
-
-                    if isinstance(v, dict) and "value" in v and "units" in v:
-                        v = pipecat.quantity(v["value"], v["units"])
-
-                pipecat.record.add_field(output, k, v)
-            yield output
+            pipecat.record.add_field(record, keyout, json.loads(record[key]))
+            yield record
         except Exception as e:
             log.error(e)
