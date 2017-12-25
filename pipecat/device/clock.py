@@ -48,8 +48,8 @@ def metronome(rate=pipecat.quantity(1.0, pipecat.units.seconds)):
 
     Yields
     ------
-    records: dict
-        Yields an empty record at fixed time intervals.
+    record: dict
+        Empty record returned at fixed time intervals.
     """
     delay = rate.to(pipecat.units.seconds).magnitude
     last_time = time.time()

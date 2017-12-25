@@ -20,9 +20,13 @@
 See sub-modules of this module for different classes of hardware device
 supported by Pipecat:
 
+* Automobiles - :mod:`pipecat.device.auto`
 * Battery chargers - :mod:`pipecat.device.charger`
 * Clocks - :mod:`pipecat.device.clock`
 * GPS receivers - :mod:`pipecat.device.gps`
+* Motion sensors / accelerometers - :mod:`pipecat.device.motion`
+* Serial ports - :mod:`pipecat.device.serial`
+* Weather - :mod:`pipecat.device.weather`
 
 """
 

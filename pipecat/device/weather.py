@@ -35,7 +35,7 @@ def metars(source, key="xml"):
 
     Yields
     ------
-    records: dict
+    record: dict
         Records will contain METAR data extracted from XML.
     """
 

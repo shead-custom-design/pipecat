@@ -38,8 +38,7 @@ def concatenate(sources):
 
     Yields
     ------
-    records: dict
-        Returns records from each source in-turn.
+    record: dict
     """
     for source in sources:
         for record in source:
@@ -49,14 +48,15 @@ def concatenate(sources):
 def multiplex(sources):
     """Interleave records from multiple sources.
 
+    Yields records from all sources in the order that they arrive.
+
     Parameters
     ----------
     sources: sequence of :ref:`record-generators`, required
 
     Yields
     ------
-    records: dict
-        Returns records from all sources as they arrive.
+    record: dict
     """
     queue = pipecat.queue.Queue()
     consumers = []

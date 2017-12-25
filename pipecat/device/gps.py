@@ -38,11 +38,11 @@ def nmea(source):
 
     Yields
     ------
-    records: dict
-        Records will contain varying amounts of time, position, speed, heading,
-        pitch, roll, and quality information based on device sending the data.
-        Support is provided for GPGGA, GPGLL, GPRMC, GPTXT, HCHDG, and PASHR
-        messages.
+    record: dict
+        Records will contain multiple fields containing time, position, speed,
+        heading, pitch, roll, and quality information based on device sending
+        the data.  Support is provided for GPGGA, GPGLL, GPRMC, GPTXT, HCHDG,
+        and PASHR messages.
     """
     def latitude(degrees, hemisphere):
         degrees = (1.0 if hemisphere == "N" else -1.0) * (float(degrees[:2]) + (float(degrees[2:]) / 60.0))

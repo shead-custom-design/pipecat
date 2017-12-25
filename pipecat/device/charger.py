@@ -53,10 +53,10 @@ def icharger208b(source):
 
     Yields
     ------
-    records: dict
+    record: dict
         Records will contain information including the charge mode, supply
         voltage, battery voltage, battery current, internal and external
-        charger temperature, and the total charged added-to / removed-from the
+        charger temperature, and the total charge added-to / removed-from the
         battery.
     """
 

@@ -39,7 +39,7 @@ def readline(*args, **kwargs):
 
     Yields
     ------
-    records: dict
+    record: dict
         Records will contain each line of text read from the port.
     """
     poll = kwargs.pop("poll", pipecat.quantity(5, pipecat.units.seconds)).to(pipecat.units.seconds).magnitude

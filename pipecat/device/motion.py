@@ -35,8 +35,9 @@ def ios(rate=quantity(1, units.second)):
 
     Yields
     ------
-    records: dict
-        Records will contain information including the current acceleration due to gravity and the user, along with device attitude.
+    record: dict
+        Records will contain information including the current acceleration due
+        to gravity and the user, along with device attitude.
     """
 
     import time

@@ -41,7 +41,7 @@ def obd(connection, commands=None, rate=quantity(5, units.second)):
 
     Yields
     ------
-    records: dict
+    record: dict
         Records will contain OBD-II data retrieved from an automobile computer.
     """
 

@@ -29,13 +29,16 @@ except ImportError:
 def receive(queue):
     """Receive records from a queue.
 
+    Queues are a handy mechanism for passing data between threads.  Use this
+    function to receive records sent over a queue by :func:`pipecat.queue.send`.
+
     Parameters
     ----------
     queue: :class:`queue.Queue`, required
 
     Yields
     ------
-    records: dict
+    record: dict
     """
     while True:
         record = queue.get()
@@ -47,12 +50,15 @@ def receive(queue):
 def send(source, queue, shutdown=None):
     """Send records from a source to a queue.
 
+    Queues are a handy mechanism for passing data between threads.  Use this
+    function to send records over a queue to :func:`pipecat.queue.receive`.
+
     Parameters
     ----------
     source: :ref:`Record generator <record-generators>`, required
     queue: :class:`queue.Queue`, required
     shutdown: :class:`threading.Event`, optional.
-        Set the event to safely stop sending from another thread.
+        If supplied, callers can set the event to safely stop sending from another thread.
     """
     for record in source:
         queue.put(record)
