@@ -58,3 +58,16 @@ def dump(record, fobj=sys.stdout):
         fobj.write(u"%s: %s\n" % (key, value))
     fobj.write(u"\n")
     fobj.flush()
+
+
+def remove_field(record, key):
+    """Remove a key-value pair from a record.
+
+    Parameters
+    ----------
+    record: dict, required
+        Dictionary of key-value pairs that constitute a record.
+    key: :ref:`Record key <record-keys>`, required
+        Record key to be removed.
+    """
+    record.pop(key, None)
