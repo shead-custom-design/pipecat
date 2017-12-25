@@ -26,14 +26,28 @@ import pipecat.record
 
 
 def receive(address, maxsize):
-    """Receive messages from a UDP socket."""
+    """Receive messages from a UDP socket.
+
+    Parameters
+    ----------
+    address: (host, port) tuple, required
+        TCP address and IP port to be bound for listening for UDP packets.
+    maxsize: int, required
+        Maximum length of packets returned from the UDP socket.
+
+    Yields
+    ------
+    record: dict
+        Records will contain a `client` field with the address of the sending
+        client, and a `message` field containing the content of the message.
+    """
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.bind(address)
     while True:
-        string, client = s.recvfrom(maxsize)
+        message, client = s.recvfrom(maxsize)
 
         record = {}
-        pipecat.record.add_field(record, "string", string)
         pipecat.record.add_field(record, "client", client)
+        pipecat.record.add_field(record, "message", message)
 
         yield record
