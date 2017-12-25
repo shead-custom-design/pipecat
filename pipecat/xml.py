@@ -28,23 +28,25 @@ import pipecat.record
 log = logging.getLogger(__name__)
 
 
-def parse(source, key="string"):
+def parse(source, key="string", keyout="xml"):
     """Parse XML data from a record.
 
     Parameters
     ----------
     source: :ref:`Record generator <record-generators>`, required
     key: :ref:`Record key <record-keys>`, optional
+        Input key containing a string to be parsed as XML.
+    keyout: :ref:`Record key <record-keys>`, optional
+        Output key where the parsed XML DOM will be stored.
 
     Yields
     ------
-    records: dict
-        Each record will contain a single `xml` key containing an XML DOM parsed from a source record.
+    record: dict
+        Input records with a new field `key` containing an XML DOM.
     """
     for record in source:
         try:
-            output = {}
-            pipecat.record.add_field(output, "xml", xml.fromstring(record[key]))
-            yield output
+            pipecat.record.add_field(record, keyout, xml.fromstring(record[key]))
+            yield record
         except Exception as e:
             log.error(e)
