@@ -43,8 +43,9 @@ def get(*args, **kwargs):
 
     Yields
     ------
-    records: dict
-        Records will contain a single `string` key with the contents returned from each request.
+    record: dict
+        Records will contain `status`, `(header, key)`, `encoding`, and `body`
+        keys containing the results returned from each request.
     """
     poll = kwargs.pop("poll", pipecat.quantity(5, pipecat.units.seconds)).to(pipecat.units.seconds).magnitude
 
@@ -57,7 +58,7 @@ def get(*args, **kwargs):
             for key, value in result.headers.items():
                 pipecat.record.add_field(record, ("header", key), value)
             pipecat.record.add_field(record, "encoding", result.encoding)
-            pipecat.record.add_field(record, "string", result.text)
+            pipecat.record.add_field(record, "body", result.text)
 
             yield record
         except Exception as e:
@@ -66,7 +67,30 @@ def get(*args, **kwargs):
         time.sleep(poll)
 
 
-def receive(address):
+def receive(
+    address,
+    include_body=True,
+    include_client=False,
+    include_method=False,
+    include_path=False,
+    include_version=False,
+    ):
+    """Receives data sent using HTTP requests.
+
+    Provides a simple HTTP server that receives client requests, converting
+    each request into Pipecat records.
+
+    Parameters
+    ----------
+    address: (host, port) tuple, required
+        TCP address and IP port to be bound for listening to requests.
+
+    Yields
+    ------
+    record: dict
+        Records will contain `client`, `version`, `method`, `path`, and `body` keys containing
+        the content of each request.
+    """
     class Handler(BaseHTTPServer.BaseHTTPRequestHandler):
         server_version = "Pipecat/" + pipecat.__version__
 
@@ -76,11 +100,16 @@ def receive(address):
             request_size = int(self.headers.get("Content-length", 0))
 
             Handler.record.clear()
-            pipecat.record.add_field(Handler.record, "client", self.client_address)
-            pipecat.record.add_field(Handler.record, "version", self.request_version)
-            pipecat.record.add_field(Handler.record, "method", self.command)
-            pipecat.record.add_field(Handler.record, "path", self.path)
-            pipecat.record.add_field(Handler.record, "body", self.rfile.read(request_size))
+            if include_body:
+                pipecat.record.add_field(Handler.record, "body", self.rfile.read(request_size))
+            if include_client:
+                pipecat.record.add_field(Handler.record, "client", self.client_address)
+            if include_method:
+                pipecat.record.add_field(Handler.record, "method", self.command)
+            if include_path:
+                pipecat.record.add_field(Handler.record, "path", self.path)
+            if include_version:
+                pipecat.record.add_field(Handler.record, "version", self.request_version)
 
             self.send_response(200)
             self.end_headers()
