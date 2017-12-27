@@ -36,9 +36,10 @@ setup(
     ],
     description="Elegant, flexible data logging in Python for connected sensors and instruments.",
     install_requires=[
+        "Pint",
         "arrow",
         "numpy>=1.8.0",
-        "Pint",
+        "requests",
         "six",
     ],
     long_description="""Pipecat provides a simple, flexible framework for retrieving data from connected sensors and instruments.
