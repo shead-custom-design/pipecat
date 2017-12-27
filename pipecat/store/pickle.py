@@ -16,6 +16,10 @@
 # along with Pipecat.  If not, see <http://www.gnu.org/licenses/>.
 
 """Functions for reading and writing data using Python pickle files.
+
+.. warning::
+   Pickle files written using Python 2 cannot be read using Python 3, and vice-versa.
+
 """
 
 from __future__ import absolute_import, division, print_function
