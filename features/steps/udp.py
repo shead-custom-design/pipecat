@@ -35,10 +35,11 @@ def step_impl(context):
 @when(u'sending {count} messages to the udp port from a separate thread.')
 def step_impl(context, count):
     def implementation(count, address):
-        time.sleep(2)
+        time.sleep(5)
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         for index in range(count):
             s.sendto("foo", address)
+            time.sleep(1)
 
     thread = threading.Thread(target=implementation, args=(int(count), context.address))
     thread.start()
