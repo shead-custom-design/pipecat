@@ -48,7 +48,7 @@ class SkipCells(nbconvert.preprocessors.Preprocessor):
         return nb, resources
 
 def convert_notebook(name, force):
-    print "Converting %s" % name
+    print("Converting %s" % name)
 
     # If the Sphinx source is up-to-date, we're done.
     source = os.path.join(docs_dir, "%s.ipynb" % name)
