@@ -22,7 +22,7 @@ from __future__ import absolute_import, division, print_function
 from pipecat import quantity, units
 from pipecat.record import add_field
 
-def icharger208b(source):
+def icharger208b(source, key):
     """Parse data from an iCharger 208B battery charger.
 
     Parses data events emitted by the charger during charge, discharge, etc.
@@ -43,13 +43,15 @@ def icharger208b(source):
 
     >>> pipe = serial.serial_for_url("/dev/cu.SLAB_USBtoUART", baudrate=128000)
     >>> pipe = pipecat.utility.readline(pipe)
-    >>> pipe = pipecat.device.charger.icharger208b(pipe)
+    >>> pipe = pipecat.device.charger.icharger208b(pipe, key="line")
     >>> for record in pipe:
     ...   print record
 
     Parameters
     ----------
     source: :ref:`Record generator <record-generators>` returning records containing a "string" field.
+    key: :ref:`Record key <record-keys>`, optional
+        The key in incoming records containing charger data.
 
     Yields
     ------
@@ -76,7 +78,7 @@ def icharger208b(source):
     }
 
     for record in source:
-        raw = record["string"].strip().split(";")
+        raw = record[key].strip().split(";")
 
         record = dict()
         add_field(record, ("charger", "mode"), modes[int(raw[1])])
