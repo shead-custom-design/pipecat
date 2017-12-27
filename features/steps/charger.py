@@ -22,16 +22,17 @@ from behave import *
 import nose.tools
 
 import pipecat.device.charger
-import pipecat.test
+
+import test
 
 data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data"))
 
 @given(u'an icharger 208b connected to a serial port.')
 def step_impl(context):
-    serial = pipecat.test.mock_module("serial")
-    serial.serial_for_url.side_effect = pipecat.test.read_file(os.path.join(data_dir, "icharger208b-charging"), stop=10)
+    serial = test.mock_module("serial")
+    serial.serial_for_url.side_effect = test.read_file(os.path.join(data_dir, "icharger208b-charging"), stop=10)
 
 
 @given(u'an instance of pipecat.device.charger.icharger208b')
 def step_impl(context):
-    context.pipe = pipecat.device.charger.icharger208b(context.pipe)
+    context.pipe = pipecat.device.charger.icharger208b(context.pipe, key="line")

@@ -29,7 +29,6 @@ Contents:
    pipecat.store.rst
    pipecat.store.csv.rst
    pipecat.store.pickle.rst
-   pipecat.test.rst
    pipecat.udp.rst
    pipecat.utility.rst
    pipecat.xml.rst
