@@ -26,7 +26,7 @@ import operator
 import pipecat.record
 
 
-def nmea(source):
+def nmea(source, key):
     """Parse NMEA messages from raw strings.
 
     Examples
@@ -35,6 +35,8 @@ def nmea(source):
     Parameters
     ----------
     source: :ref:`Record generator <record-generators>` returning records containing a "string" field.
+    key: :ref:`Record key <record-keys>`, required
+        The key in incoming records to parse as NMEA.
 
     Yields
     ------
@@ -57,7 +59,7 @@ def nmea(source):
         return pipecat.quantity(degrees, pipecat.units.degrees)
 
     for record in source:
-        sentence = record.get("string", "")
+        sentence = record.get(key)
         if sentence[0] != "$":
             pipecat.log.warning("Not a valid NMEA sentence.")
             continue
