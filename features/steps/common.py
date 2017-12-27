@@ -82,6 +82,17 @@ def step_impl(context, key):
         nose.tools.assert_is_instance(record[key], arrow.arrow.Arrow)
 
 
+@then(u'every record will contain a {key} key with an address value.')
+def step_impl(context, key):
+    key = eval(key)
+    for record in context.records:
+        nose.tools.assert_in(key, record)
+        nose.tools.assert_is_instance(record[key], tuple)
+        nose.tools.assert_equal(len(record[key]), 2)
+        nose.tools.assert_is_instance(record[key][0], six.string_types)
+        nose.tools.assert_is_instance(record[key][1], int)
+
+
 @given(u'a pyserial connection.')
 def step_impl(context):
     import serial

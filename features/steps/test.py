@@ -19,7 +19,9 @@
 
 from __future__ import absolute_import, division, print_function
 
+import contextlib
 import itertools
+import socket
 import sys
 import time
 
@@ -74,3 +76,8 @@ class ReceiveFromFile(object):
 
 def recvfrom_file(path, client, rate=None, start=None, stop=None, step=None, block=False):
     return ReceiveFromFile(path=path, client=client, rate=rate, start=start, stop=stop, step=step, block=block)
+
+def get_free_address():
+    with contextlib.closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
+        s.bind(("localhost", 0))
+        return s.getsockname()
