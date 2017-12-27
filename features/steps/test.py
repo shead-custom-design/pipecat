@@ -79,5 +79,5 @@ def recvfrom_file(path, client, rate=None, start=None, stop=None, step=None, blo
 
 def get_free_address():
     with contextlib.closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
-        s.bind(("localhost", 0))
+        s.bind(("127.0.0.1", 0))
         return s.getsockname()
