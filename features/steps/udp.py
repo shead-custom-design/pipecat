@@ -24,7 +24,7 @@ import threading
 import time
 
 import pipecat.udp
-
+import six
 import test
 
 @given(u'an instance of pipecat.udp.receive listening to a udp port.')
@@ -35,12 +35,11 @@ def step_impl(context):
 @when(u'sending {count} messages to the udp port from a separate thread.')
 def step_impl(context, count):
     def implementation(count, address):
-        time.sleep(5)
+        time.sleep(2)
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         for index in range(count):
             print("Sending.\n")
-            s.sendto("foo", address)
-            time.sleep(1)
+            s.sendto(six.b("foo"), address)
         print("Done.\n")
 
     thread = threading.Thread(target=implementation, args=(int(count), context.address))
