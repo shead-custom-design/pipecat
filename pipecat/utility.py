@@ -138,7 +138,7 @@ def readline(fobj, encoding="utf-8"):
             line = line.decode(encoding)
 
         record = {}
-        pipecat.record.add_field(record, "string", line)
+        pipecat.record.add_field(record, "line", line)
         yield record
 
 
