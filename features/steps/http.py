@@ -19,26 +19,32 @@
 from behave import *
 import nose.tools
 
-import socket
 import threading
 import time
 
-import pipecat.udp
+import pipecat.http
+import requests
 import six
 import test
 
-@given(u'an instance of pipecat.udp.receive.')
+@given(u'an instance of pipecat.http.receive.')
 def step_impl(context):
     context.address = test.get_free_address()
-    context.pipe = pipecat.udp.receive(context.address, 1024)
+    context.pipe = pipecat.http.receive(
+        context.address,
+        include_body=True,
+        include_client=True,
+        include_method=True,
+        include_path=True,
+        include_version=True,
+        )
 
-@when(u'sending {count} messages to the udp port from a separate thread.')
+@when(u'sending {count} messages to the http port from a separate thread.')
 def step_impl(context, count):
     def implementation(count, address):
         time.sleep(2)
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         for index in range(count):
-            s.sendto(six.b("foo"), address)
+            requests.post("http://%s:%s" % (address), data=six.b("foo"))
 
     thread = threading.Thread(target=implementation, args=(int(count), context.address))
     thread.start()
