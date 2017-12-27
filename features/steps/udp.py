@@ -38,9 +38,7 @@ def step_impl(context, count):
         time.sleep(2)
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         for index in range(count):
-            print("Sending.\n")
             s.sendto(six.b("foo"), address)
-        print("Done.\n")
 
     thread = threading.Thread(target=implementation, args=(int(count), context.address))
     thread.start()
