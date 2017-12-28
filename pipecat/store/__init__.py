@@ -73,7 +73,7 @@ class Cache(object):
         return self
 
     def __next__(self): # For Python 3
-        record = self._source.next()
+        record = next(self._source)
         self._storage.append(record)
         return record
 
