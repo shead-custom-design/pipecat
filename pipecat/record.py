@@ -52,9 +52,9 @@ def dump(record, fobj=sys.stdout):
     fobj: file-like object, optional
     """
 
-    for key, value in sorted(record.items()):
-        if isinstance(key, tuple):
-            key = "/".join(key)
+    fields = [("/".join(key) if isinstance(key, tuple) else key, value) for key, value in record.items()]
+    fields = sorted(fields)
+    for key, value in fields:
         fobj.write(u"%s: %s\n" % (key, value))
     fobj.write(u"\n")
     fobj.flush()
